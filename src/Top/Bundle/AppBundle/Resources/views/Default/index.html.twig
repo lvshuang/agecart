@@ -1,4 +1,4 @@
 {% extends 'AppBundle::layout.html.twig' %}
 {% block body %}
-	Hello {{ name }}!
+	取到 token {{ token.token }}! 将在{{ token.expire_time|date('Y-m-d H:i:s') }}过期
 {% endblock %}

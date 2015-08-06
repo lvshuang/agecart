@@ -14,11 +14,21 @@ class AccessToken
 	public function __construct($container)
 	{
 		$this->container = $container;
+		$this->initConfig();
+	}
+
+	public function getAppId()
+	{
+		return $this->appId;
+	}
+
+	public function getAppSecret()
+	{
+		return $this->appSecret;
 	}
 
 	public function getAccessToken()
 	{
-		$this->initConfig();
 		$params = array('grant_type' => 'client_credential');
 		$params['appid'] = $this->appId;
 		$params['secret'] = $this->appSecret;
