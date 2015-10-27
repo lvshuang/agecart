@@ -37,5 +37,10 @@ abstract class BaseService
 	{
 		return $this->createDao('Auth.AccessTokenDao');
 	}
+        
+        protected function getProductDao()
+        {
+            return $this->createDao('Product.ProductDao');
+        }
 
 }

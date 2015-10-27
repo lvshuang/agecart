@@ -18,7 +18,7 @@ class ProductServiceImpl extends BaseService
         }
         
         try {
-            
+            return $this->getProductDao()->add($product);
         } catch (\Exception $ex) {
             
         }
@@ -26,7 +26,6 @@ class ProductServiceImpl extends BaseService
     
     protected function validateProduct($product)
     {
-        
     }
     
 }

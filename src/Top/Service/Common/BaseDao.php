@@ -11,6 +11,8 @@ abstract class BaseDao
     protected static $instance = array();
     protected $dbConnection;
     protected $primaryKey = 'id';
+    protected $lastSql = '';
+    protected $params = array();
 
     public static function instance(Connection $dbConnection) 
     {
@@ -44,25 +46,38 @@ abstract class BaseDao
         return $this->dbConnection;
     }
 
-    public function insert(array $data) 
+    public function insert($tableName, array $data) 
     {
-        return $this->dbConnection->insert($this->tableName, $data);
+        return $this->dbConnection->insert($tableName, $data);
     }
 
-    public function update($id, array $updateData) 
+    public function update($tableName, array $condition, array $updateData) 
     {
-        $cond = array($this->primaryKey => $id);
-        return $this->dbConnection->update($this->tableName, $updateData, $cond);
+        return $this->dbConnection->update($tableName, $updateData, $condition);
     }
 
-    public function fetchRow($id) 
+    public function fetchRow($sql = null) 
     {
-        $sqlBuilder = $this->dbConnection->createQueryBuilder()
-                ->select('a.*')
-                ->from($this->tableName, 'a')
-                ->where($this->primaryKey . ' = ?');
-        $sql = $sqlBuilder->getSQL();
-        return $this->dbConnection->fetchAssoc($sql, array($id));
+        if (!$sql) {
+            $sql = $this->lastSql;
+        }
+        return $this->dbConnection->fetchAssoc($sql, $this->params);
+    }
+    
+    public function fetchAll($sql = null)
+    {
+        if (!$sql) {
+            $sql = $this->lastSql;
+        }
+        if (empty($sql)) {
+            throw new DBALException('no sql to exce');
+        }
+        return $this->dbConnection->fetchAll($sql, $this->params);
+    }
+    
+    public function delete($tableName, array $condition)
+    {
+        return $this->dbConnection->delete($tableName, $condition);
     }
 
     public function getTableName() 
@@ -73,6 +88,41 @@ abstract class BaseDao
     public function getPrimaryKey() 
     {
         return $this->primaryKey;
+    }
+    
+    public function select($feilds = '*')
+    {
+        $this->lastSql = "SELECT " . $feilds . " FROM ";
+        return $this;
+    }
+    
+    public function from($table = '')
+    {
+        if (empty($table)) {
+            $table = $this->getTableName();
+        }
+        $this->lastSql .= $table;
+        return $this;
+    }
+    
+    public function where(array $condition)
+    {
+        list($condInString, $params) = $this->buildCondition($condition);
+        $this->lastSql .= ' WHERE ' .  $condInString;
+        $this->params = $params;
+        return $this;
+    }
+    
+    public function orderBy($order)
+    {
+        $this->lastSql .= ' ' . $order;
+        return $this;
+    }
+    
+    public function limit($start, $limit)
+    {
+        $this->lastSql .= ' LIMIT ' . $start . ', ' . $limit;
+        return $this;
     }
     
     public function buildCondition(array $condition)
