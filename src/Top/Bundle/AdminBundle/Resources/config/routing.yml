@@ -1,3 +1,19 @@
 admin_homepage:
-    path:     /hello/{name}
+    path: /
     defaults: { _controller: AdminBundle:Default:index }
+
+admin_order:
+    path: /order
+    defaults: { _controller: AdminBundle:Order:index }
+
+admin_product:
+    path: /product
+    defaults: { _controller: AdminBundle:Product:index }
+    
+admin_user:
+    path: /user
+    defaults: { _controller: AdminBundle:User:index }
+
+admin_system:
+    path: /system
+    defaults: { _controller: AdminBundle:System:index }

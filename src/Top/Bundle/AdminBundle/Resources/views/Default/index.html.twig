@@ -1,1 +1,21 @@
-Hello {{ name }}!
+{% extends "AdminBundle::layout.html.twig" %}
+
+{% block side %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">订单管理</div>
+        </div>
+        <div class="list-group">
+            <a href="#" class="list-group-item active">
+                订单列表
+            </a>
+            <a href="#" class="list-group-item">订单发货</a>
+            <a href="#" class="list-group-item">包裹列表</a>
+            <a href="#" class="list-group-item">快递查询</a>
+        </div>
+    </div>
+    
+{% endblock %}
+
+{% block main %}
+{% endblock %}

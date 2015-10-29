@@ -7,6 +7,7 @@
 namespace Top\Service\Product;
 
 use Top\Service\Common\BaseService;
+use Top\Common\BusinessException;
 
 class ProductServiceImpl extends BaseService
 {
@@ -14,13 +15,13 @@ class ProductServiceImpl extends BaseService
     public function addProduct(array $product)
     {
         if (empty($product)) {
-            throw new \Top\Service\Common\ServiceException('product empty');
+            throw new BusinessException('product empty');
         }
         
         try {
             return $this->getProductDao()->add($product);
         } catch (\Exception $ex) {
-            
+            throw $ex;
         }
     }
     
