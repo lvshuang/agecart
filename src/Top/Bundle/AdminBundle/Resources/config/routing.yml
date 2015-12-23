@@ -9,6 +9,10 @@ admin_order:
 admin_product:
     path: /product
     defaults: { _controller: AdminBundle:Product:index }
+
+admin_product_category:
+    path: /product/category
+    defaults: { _controller: AdminBundle:ProductCategory:index }
     
 admin_user:
     path: /user

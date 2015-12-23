@@ -42,5 +42,10 @@ abstract class BaseService
         {
             return $this->createDao('Product.ProductDao');
         }
+        
+        protected function getCategoryDao()
+        {
+            return $this->createDao('Product.CategoryDao');
+        }
 
 }

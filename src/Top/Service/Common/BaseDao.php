@@ -20,10 +20,6 @@ abstract class BaseDao
         if (!isset(self::$instance[$class])) {
             self::$instance[$class] = new $class($dbConnection);
         }
-        $tableName = self::$instance[$class]->getTableName();
-        if (empty($tableName)) {
-            throw new DBALException('table name not set');
-        }
         $primaryKey = self::$instance[$class]->getPrimaryKey();
         if (empty($primaryKey)) {
             throw new DBALException('primary key name not set');
@@ -48,7 +44,10 @@ abstract class BaseDao
 
     public function insert($tableName, array $data) 
     {
-        return $this->dbConnection->insert($tableName, $data);
+        if (!$this->dbConnection->insert($tableName, $data)) {
+            return false;
+        }
+        return $this->dbConnection->lastInsertId();
     }
 
     public function update($tableName, array $condition, array $updateData) 
@@ -79,6 +78,17 @@ abstract class BaseDao
     {
         return $this->dbConnection->delete($tableName, $condition);
     }
+    
+    public function count($sql = null)
+    {
+        if (!$sql) {
+            $sql = $this->lastSql;
+        }
+        if (empty($sql)) {
+            throw new DBALException('no sql to exce');
+        }
+        return $this->dbConnection->fetchColumn($sql, $this->params);
+    }
 
     public function getTableName() 
     {
@@ -98,18 +108,17 @@ abstract class BaseDao
     
     public function from($table = '')
     {
-        if (empty($table)) {
-            $table = $this->getTableName();
-        }
         $this->lastSql .= $table;
         return $this;
     }
     
-    public function where(array $condition)
+    public function where(array $condition = array())
     {
         list($condInString, $params) = $this->buildCondition($condition);
-        $this->lastSql .= ' WHERE ' .  $condInString;
-        $this->params = $params;
+        if ($condInString) {
+            $this->lastSql .= ' WHERE ' .  $condInString;
+            $this->params = $params;
+        }
         return $this;
     }
     
@@ -127,9 +136,6 @@ abstract class BaseDao
     
     public function buildCondition(array $condition)
     {
-        if (empty($condition)) {
-            throw new DBALException('sql condition empty');
-        }
         $content = '';
         $params = array();
         $maybeConnectors = array('>=', '<=', '<>', '!=', '>', '<', '=',

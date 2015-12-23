@@ -1,5 +1,12 @@
+* {
+    -webkit-font-smoothing: antialiased;
+}
+
 .agc-nav {
     background: #3097D1;
+    font-weight: 400;
+    border-bottom: 1px solid #1c73a5;
+    -webkit-font-smoothing: antialiased;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.open>a

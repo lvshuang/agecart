@@ -4,8 +4,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title></title>
         <link rel="stylesheet" type="text/css" href="{{ asset('lib/bootstrap/3.3.5/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('lib/common/common.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/admin/css/admin.css') }}">
-        <!--<script type="text/javascript" src="{{ asset('lib/bootstrap/3.3.5/js/bootstrap.min.js') }}"></script> -->
     </head>
     <body>
         {% block nav %}
@@ -47,13 +47,45 @@
                 {% block side %}
                 {% endblock %}
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                 {% block main %}
                 {% endblock %}
                 </div>
             {% endblock %}
             </div>
+            <div id="modal-global" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-info">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
+    <script type="text/javascript" src="{{ asset('lib/jquery/1.11.3/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/seajs/2.3.0/sea.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/bootstrap/3.3.5/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript">
+        var app = {};
+        app.user = {{ app.user }}
+        app.login = app.user ? true : false;
+        seajs.use('/bundles/admin/js/app.js');
+        
+        {% set script = script|default(null) %}
+        {% if script %}
+            load_script(script);
+        {% endif %}
+    </script>
+    {% block script %}
+    {% endblock %}
 </html>
 
