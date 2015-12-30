@@ -21,13 +21,6 @@ interface CategoryInterface
     
     public function makeCategoryTree();
     
-    /**
-     * 获取顶级分类.
-     * 
-     * @return array 
-     */
-    public function getTopCategory();
-    
     public function getChildren($id);
     
 }

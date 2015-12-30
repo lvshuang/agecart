@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title></title>
+        <title>{% block time %}Age Cart后台管理系统{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="{{ asset('lib/bootstrap/3.3.5/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('lib/common/common.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/admin/css/admin.css') }}">
@@ -73,17 +73,20 @@
     </body>
     <script type="text/javascript" src="{{ asset('lib/jquery/1.11.3/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/seajs/2.3.0/sea.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/seajs/config.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/bootstrap/3.3.5/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript">
         var app = {};
         app.user = {{ app.user }}
         app.login = app.user ? true : false;
-        seajs.use('/bundles/admin/js/app.js');
         
         {% set script = script|default(null) %}
         {% if script %}
-            load_script(script);
+            window.app.script = '{{script}}';
         {% endif %}
+        
+        seajs.use('/bundles/admin/js/app.js');
+        
     </script>
     {% block script %}
     {% endblock %}

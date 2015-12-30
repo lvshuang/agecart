@@ -24,3 +24,13 @@
     color: rgba(255, 255, 255, 1);
 }
 
+.category-select {
+    display: inline-block;
+    width: 100%;
+}
+
+.category-select select {
+    display: inline-block;
+    width: 30%;
+}
+

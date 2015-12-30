@@ -1,8 +1,7 @@
 {% extends "AdminBundle:Product:layout.html.twig" %}
 {% set sub_nav = 'category' %}
-
+{#{% set script = 'category' %}#}
 {% block main %}
-    {{ dump(categoryTree) }}
     <div class="panel panel-default">
         <div class="panel-heading">
             商品分类管理
@@ -11,7 +10,7 @@
             <div class="clearfix mbl">
                 <span class="pull-right">
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="javascript:;" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-global">添加分类</a>
+                        <a href="{{ path('admin_category_add') }}" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-global">添加分类</a>
                         <a href="javascript:;" class="btn btn-danger btn-sm">批量删除</a>
                     </div>
                 </span>

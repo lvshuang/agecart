@@ -3,6 +3,7 @@
 namespace Top\Bundle\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BaseController extends Controller
 {
@@ -28,5 +29,12 @@ class BaseController extends Controller
     {
         return $this->getService('Product.Category');
     }
-
+    
+    protected function createJsonResponse($data)
+    {
+        $response = new JsonResponse();
+        $response->setData($data);
+        return $response;
+    }
+    
 }

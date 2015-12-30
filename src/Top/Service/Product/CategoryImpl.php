@@ -89,7 +89,10 @@ class CategoryImpl extends \Top\Service\Common\BaseService implements \Top\Servi
     
     public function getChildren($id)
     {
-        
+        $condition = array(
+            'parent_id' => (int) $id,
+        );
+        return $this->getCategoryDao()->getByCondition($condition);
     }
     
     protected function validateCategory(array $category)

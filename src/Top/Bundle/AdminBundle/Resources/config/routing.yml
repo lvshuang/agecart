@@ -14,6 +14,14 @@ admin_product_category:
     path: /product/category
     defaults: { _controller: AdminBundle:ProductCategory:index }
     
+admin_category_add:
+    path: /product/category/add
+    defaults: { _controller: AdminBundle:ProductCategory:add }
+
+admin_category_load:
+    path: /product/category/load
+    defaults: { _controller: AdminBundle:ProductCategory:load }
+    
 admin_user:
     path: /user
     defaults: { _controller: AdminBundle:User:index }
