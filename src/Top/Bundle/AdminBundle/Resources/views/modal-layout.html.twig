@@ -1,0 +1,21 @@
+{% import 'AdminBundle::macro.html.twig' as macro %}
+{% set size = size|default('') %}
+{# modal-lg #}
+{# modal-sm #}
+<div class="modal-dialog {{size}}">
+	<div class="modal-content clearfix">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h4 class="modal-title">{% block title %}Bootrap 弹出层{% endblock %}</h4>
+	  </div>
+	  <div class="modal-body clearfix">
+	    {% block body %}弹出层内容{% endblock %}
+	  </div>
+	  <div class="modal-footer">
+	  	{% block footer %}
+		    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		    <button type="submit" class="btn btn-primary">保存</button>
+		{% endblock %}
+	  </div>
+	</div>
+</div>
