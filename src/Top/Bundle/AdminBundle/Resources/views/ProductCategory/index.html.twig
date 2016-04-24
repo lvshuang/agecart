@@ -1,6 +1,6 @@
 {% extends "AdminBundle:Product:layout.html.twig" %}
 {% set sub_nav = 'category' %}
-{#{% set script = 'category' %}#}
+{% set script = 'category_list' %}
 {% block main %}
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -11,7 +11,7 @@
                 <span class="pull-right">
                     <div class="btn-group btn-group-sm" role="group">
                         <a href="{{ path('admin_category_add') }}" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-global">添加分类</a>
-                        <a href="javascript:;" class="btn btn-danger btn-sm">批量删除</a>
+                        <a href="javascript:;" class="btn btn-danger btn-sm delete-all">批量删除</a>
                     </div>
                 </span>
             </div>
@@ -20,18 +20,18 @@
             {% else %}
                 <table class="table table-responsive table-hover">
                     <tr>
-                        <th class="select-all" data-selected="0">全选</th>
-                        <th>等级</th>
+                        <th class="select-all text-info cursor-point" data-selected="0">全选</th>
+{#                        <th>等级</th>#}
                         <th>分类名称</th>
                         <th>排序</th>
-                        <th>last update</th>
-                        <th>create</th>
+                        <th>最后修改时间</th>
+                        <th>创建时间</th>
                         <th>操作</th>
                     </tr>
                     {% for top in categoryTree.top %}
                         <tr class="info">
                             <td><input type="checkbox" value="{{ top.id }}"></input></td>
-                            <td>一级分类</td>
+{#                            <td>一级分类</td>#}
                             <td>{{ top.name }}</td>
                             <td>{{ top.sort_order }}</td>
                             <td>{% if top.update_time %}{{ top.update_time|date('y-m-d') }}{% endif %}</td>
@@ -48,7 +48,7 @@
                             {% for category in level1 %}
                                 <tr class="success">
                                     <td><input type="checkbox" value="{{ category.id }}"></input></td>
-                                    <td>二级分类</td>
+{#                                    <td>二级分类</td>#}
                                     <td>{{ category.name }}</td>
                                     <td>{{ category.sort_order }}</td>
                                     <td>{% if category.update_time %}{{ category.update_time|date('y-m-d') }}{% endif %}</td>
@@ -65,7 +65,7 @@
                                     {% for category in level2 %}
                                         <tr>
                                             <td><input type="checkbox" value="{{ category.id }}"></input></td>
-                                            <td>三级分类</td>
+{#                                            <td>三级分类</td>#}
                                             <td>{{ category.name }}</td>
                                             <td>{{ category.sort_order }}</td>
                                             <td>{% if category.update_time %}{{ category.update_time|date('y-m-d') }}{% endif %}</td>

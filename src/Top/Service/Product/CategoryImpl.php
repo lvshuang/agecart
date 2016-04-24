@@ -6,7 +6,6 @@
  */
 namespace Top\Service\Product;
 
-use Top\Service\Common\BaseService;
 use Top\Common\BusinessException;
 
 class CategoryImpl extends \Top\Service\Common\BaseService implements \Top\Service\Product\CategoryInterface

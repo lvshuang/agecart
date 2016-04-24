@@ -1,4 +1,9 @@
 define(function(require, exports, module) {
+    
+    window.jQuery = window.$ = jQuery = require('$');
+    
+    require('bootstrap');
+    
     exports.load_script = function(module, options) {
         
         require.async('./controller/' + module, function(module) {
@@ -15,6 +20,16 @@ define(function(require, exports, module) {
         window.app.script = null;
     }
     
+    var Widget = require('arale.widget');
+    
+    Widget.autoRenderAll();
+    
     require('bootstrap.modal.hack');
+    
+    window.setTimeout(function() {
+        $('.ag-error-show').slideUp('slow', function() {
+            $(this).find('button').click();
+        });
+    }, 2000);
     
 });

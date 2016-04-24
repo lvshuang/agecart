@@ -9,3 +9,11 @@
 .tc {
     text-align: center;
 }
+
+.ag-error-show {
+    border-radius: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 0px;
+    z-index: 10000000;
+}

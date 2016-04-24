@@ -8,28 +8,22 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class BaseController extends Controller
 {
 
-    protected function getService($name) 
-    {
-        list($service, $serviceName) = explode('.', $name);
-        $class = '\\Top\\Service\\' . $service . '\\' . $serviceName . 'Impl';
-        if (!class_exists($class)) {
-            throw new \Top\Common\BusinessException($class . ' NOT FIND');
-        }
-        $service = $class::instance();
-        $service->setContainer($this->container);
-        return $service;
-    }
-
     protected function getAccessTokenService() 
     {
-        return $this->getService('Auth.AccessToken');
+        return \Top\Service\Auth\AccessTokenImpl::instance($this->container);
     }
     
     protected function getCategoryService()
     {
-        return $this->getService('Product.Category');
+        return \Top\Service\Product\CategoryImpl::instance($this->container);
     }
     
+    protected function getProductService()
+    {
+        return \Top\Service\Product\ProductImpl::instance($this->container);
+    }
+
+
     protected function createJsonResponse($data)
     {
         $response = new JsonResponse();

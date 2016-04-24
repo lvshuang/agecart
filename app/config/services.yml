@@ -10,3 +10,9 @@ services:
     weixin.auth.token:
         class: Top\Component\WeixinAuth\AccessToken
         arguments: [@service_container]
+        
+    business.exception.log:
+        class: Top\Component\Log\BusinessExceptionLog
+        arguments: ['@logger']
+        tags:
+            - { name: monolog.logger, channel: business_exception }

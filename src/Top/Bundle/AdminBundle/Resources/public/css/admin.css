@@ -34,3 +34,13 @@
     width: 30%;
 }
 
+
+.cursor-point {
+    cursor: pointer;
+}
+
+.cursor-help {
+    cursor: help;
+}
+
+

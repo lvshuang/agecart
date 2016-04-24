@@ -19,14 +19,15 @@ class ProductCategoryController extends BaseController
     {
         $form = $this->createFormBuilder(null)
                 ->add('parent_id', 'hidden')
-                ->add('name', 'text')
+                ->add('name', 'text', array('required' => true, 'max_length' => 40))
                 ->add('weight', 'text')
                 ->add('keyword', 'text')
                 ->add('description', 'textarea')
                 ->getForm();
-        
+        $form->handleRequest($request);
         if ($form->isValid() && $request->isMethod('POST')) {
-            // process form
+            $data = $form->getData();
+            return $this->createJsonResponse(array('status' => 'ok'));
         }
         
         return $this->render('AdminBundle:ProductCategory:add.html.twig', array(

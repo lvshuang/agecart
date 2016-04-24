@@ -18,6 +18,7 @@ class CategoryDaoImpl extends \Top\Service\Common\BaseDao implements \Top\Servic
     public function getCategory($id) 
     {
         return $this->select('*')
+                ->from(self::TABLE_NAME)
                 ->where(array('id' => $id))
                 ->fetchRow();
     }
