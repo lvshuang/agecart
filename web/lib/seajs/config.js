@@ -14,6 +14,7 @@ seajs.config({
        'bootstrap.validator': 'common/js/bootstrap-validator.js',
        'toastr': 'toastr/2.0.3/toastr.min.js',
        'kindeditor': 'kindeditor/4.1.7/kindeditor',
+       'tinymce': 'tinymce/js/tinymce/tinymce.min.js',
        'editor-helper': 'utils/editor-helper'
     }
 });

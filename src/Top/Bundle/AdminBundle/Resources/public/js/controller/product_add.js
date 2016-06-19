@@ -19,7 +19,7 @@ define(function(require, exports, module){
             }
         });
         
-        var editorHelper = EditorHelper.createFullEditor('#form_description', {height: "800px"});
+        var editorHelper = EditorHelper.tinyMce('#form_description');
         var validator = new BootstrapValidator({
             element: '#product-form'
         });
@@ -34,9 +34,6 @@ define(function(require, exports, module){
            errormessageRequired: '请选择商品分类'
         });
         
-        $('#product-form').submit(function(){
-            editorHelper.sync();
-        });
     };
     
 });
