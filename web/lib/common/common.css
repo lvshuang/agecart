@@ -17,3 +17,43 @@
     margin-bottom: 0px;
     z-index: 10000000;
 }
+
+.ag-st {
+    font-size: 10px;
+}
+
+.agc-mbs {
+    margin-bottom: 5px;
+}
+
+.agc-mbm {
+    margin-bottom: 10px;
+}
+
+.agc-mbl {
+    margin-bottom: 15px;
+}
+
+.agc-mrs {
+    margin-right: 5px;
+}
+
+.agc-mrm {
+    margin-right: 10px;
+}
+
+.agc-mrl {
+    margin-right: 15px;
+}
+
+.agc-mls {
+    margin-left: 5px;
+}
+
+.agc-mlm {
+    margin-left: 10px;
+}
+
+.agc-mll {
+    margin-left: 15px;
+}

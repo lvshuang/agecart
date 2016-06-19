@@ -31,4 +31,9 @@ class BaseController extends Controller
         return $response;
     }
     
+    protected function getLogger()
+    {
+        return $this->container->get('logger');
+    }
+    
 }

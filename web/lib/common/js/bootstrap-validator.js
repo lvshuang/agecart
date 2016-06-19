@@ -15,6 +15,7 @@ define(function(require, exports, module) {
             itemErrorClass: "has-error",
             inputClass: "form-control",
             textareaClass: "form-control",
+            itemSuccessClass: "has-success",
             showMessage: function(message, element) {
                 this.getExplain(element).html(message);
                 this.getItem(element).addClass(this.get("itemErrorClass"));
@@ -32,6 +33,30 @@ define(function(require, exports, module) {
                 explain = $('<span class="' + this.get("explainClass") + '"></span>').insertAfter(item.find('input'));
             }
             return explain;
+        },
+
+        addItem: function(cfg) {
+            var params = [].slice.call(arguments);
+            var itemClass = this.get("itemClass");
+            var itemSuccessClass = this.get("itemSuccessClass");
+            params[0]['onItemValidated'] = function (error, message, eleme) {
+                if (!error) {
+                    var formItem = eleme.parents("." + itemClass);
+                    formItem.addClass(itemSuccessClass);
+                }
+            };
+
+            // params[0]['onItemValidate'] = function (eleme) {
+            //     eleme.removeClass(this.get('itemSuccessClass'));
+            //     eleme.removeClass(this.get('itemErrorClass'));
+            // };
+
+            BootstrapValidator.superclass.addItem.apply(this, params);
+            var item = this.query(cfg.element);
+            if (item) {
+                this._saveExplainMessage(item);
+            }
+
         },
         
         focus: function(e) {
@@ -56,6 +81,7 @@ define(function(require, exports, module) {
         
     });
     
+    BootstrapValidator.addRule('posNumber', /^\d{1,}/, '{{display}}格式必须是正整数');
     
     module.exports = BootstrapValidator;
     

@@ -8,6 +8,8 @@ namespace Top\Service\Product\Dao;
 
 interface CategoryDao
 {
+    const ENABLED = 1;
+    const DISABLED = 0;
     
     public function addCategory(array $category);
     

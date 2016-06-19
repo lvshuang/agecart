@@ -1,8 +1,34 @@
 <?php
+namespace Top\Service\Product\Dao;
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+class ProductSkuDaoImpl extends \Top\Service\Common\BaseDao implements \Top\Service\Product\Dao\ProductSkuDao
+{
+    const TABLE_NAME = 'product_sku';
+    
+    public function add(array $skuInfo) 
+    {
+        return $this->insert(self::TABLE_NAME, $skuInfo);
+    }
+    
+    public function getByProductId($productId, $fields) 
+    {
+        return $this->select($fields)
+            ->from(self::TABLE_NAME)
+            ->where(array('product_id' => $productId))
+            ->fetchRow();
+    }
+    
+    public function getBySku($sku, $fields) 
+    {
+        return $this->select($fields)
+            ->from(self::TABLE_NAME)
+            ->where(array('sku' => $sku))
+            ->fetchRow();
+    }
+    
+    public function updateBySku($sku, array $updateData)
+    {
+        return $this->update(self::TABLE_NAME, array('sku' => $sku), $updateData);
+    }
+    
+}

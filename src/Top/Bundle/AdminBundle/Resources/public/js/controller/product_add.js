@@ -4,7 +4,11 @@ define(function(require, exports, module){
     var EditorHelper = require('editor-helper');
     
     exports.run = function() {
-        var categorySelect = new Select({'container': '.parent-category', 'url': $('.parent-category').data('loadUrl')});
+        var categorySelect = new Select({
+            'container': '.parent-category', 
+            'url': $('.parent-category').data('loadUrl'),
+            'level': 3
+        });
         
         categorySelect.setOnSelect(function(val, level) {
             var categoryInput = $('#form_category_id');

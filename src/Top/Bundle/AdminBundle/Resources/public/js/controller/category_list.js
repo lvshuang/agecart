@@ -1,5 +1,7 @@
 define(function(require, exports, module) {
-    
+
+    var toastr = require('toastr');
+    /* 全选功能关闭
     $('.select-all').click(function () {
         if ($(this).data('selected')) {
             $('input[type="checkbox"]').each(function () {
@@ -35,6 +37,27 @@ define(function(require, exports, module) {
             }
         }
     });
+    */
+
+    exports.run = function() {
+        $(document).on('click', 'button[data-role="switch"]', function() {
+            var dom = $(this);
+            var type = $(this).data('type');
+            var typeString = type == 'enable' ? "开启" : "关闭";
+            var confirmMessage = "确认" + typeString + "分类吗？";
+            if (!confirm(confirmMessage)) {
+                return false;
+            }
+            $.post($(this).data('url'), function(response) {
+                if (response.status == 'ok') {
+                    toastr.success('操作成功', typeString);
+                    dom.parents('tr').replaceWith(response.html);
+                } else {
+                    toastr.error('操作失败', typeString);
+                }
+            }, 'json');
+        });
+    };
     
 });
 

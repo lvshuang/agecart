@@ -57,6 +57,11 @@ class ProductController extends BaseController
         render:
         return $this->render('AdminBundle:Product:edit.html.twig', array());
     }
+
+    public function deleteAction($id)
+    {
+        
+    }
     
     protected function buildForm($data = null)
     {

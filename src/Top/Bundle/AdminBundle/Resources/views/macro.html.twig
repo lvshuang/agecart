@@ -12,16 +12,17 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro form_row(field, label, help, attrs) %}
-  <div class="ui-form-item {% if field.vars.errors|length %} ui-form-item-error {% endif %}">
-    {{ form_label(field, label, {label_attr:{class:'ui-label'}}) }}
-      {{ form_widget(field, attrs|default([])) }}{% if help %}<span class="ui-form-other">{{ help|raw }}</span>{% endif %}
-      {% if field.vars.errors|length %}
-        <p class="ui-form-explain ui-tiptext ui-tiptext-error">
-          <i class="ui-tiptext-icon iconfont" title="出错">k</i>
-          {{ form_errors(field) }}
-        </p>
-      {% endif %}
+{% macro form_row(field, label, attrs, help) %}
+    <div class="form-group {% if field.vars.errors|length %} has-error{% endif %}">
+    {{ form_label(field, label, {label_attr:{class:'col-sm-2 control-label'}}) }}
+    <div class="col-sm-10">
+        {{ form_widget(field, attrs|default([])) }}
+        {% if field.vars.errors|length %}
+            <span class="help-block">{{ form_errors(field) }}</span>
+        {% elseif help|length %}
+            <span class="help-block">{{ help }}</span>
+        {% endif %}
+    </div>
   </div>
 {% endmacro %}
 

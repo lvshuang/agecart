@@ -22,5 +22,13 @@ interface CategoryInterface
     public function makeCategoryTree();
     
     public function getChildren($id);
+
+    public function enableById($id);
+
+    public function disableById($id);
+
+    public function getAllowUpdateFields();
     
+    public function loadForSelect($id);
+
 }

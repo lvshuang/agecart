@@ -3,7 +3,13 @@ define(function(require, exports, module) {
     var BootstrapValidator = require('bootstrap.validator');
     var toastr = require('toastr');
     exports.run = function() {
-        var categorySelect = new Select({'container': '.parent-category', 'url': $('.parent-category').data('loadUrl')});
+        var categorySelect = new Select(
+            {
+                'container': '.parent-category', 
+                'url': $('.parent-category').data('loadUrl'),
+                'level': 2
+            }
+        );
         
         categorySelect.setOnSelect(function(val, level) {
             $('#form_parent_id').val(val);
@@ -23,14 +29,17 @@ define(function(require, exports, module) {
             rule: 'digits min{min:1} max{max:100}'
         });
         
-        $(document).on('click', 'button[type="submit"]', function() {
+        $('button[type="submit"]').click(function(e) {
+            var btn = $(this);
             validator.execute(function(error, results, element) {
                 if (!error) {
+                    btn.attr('disabled', 'disabled');
                     $.post($('form').attr('action'), $('form').serialize(), function(response) {
                         if (response.status == 'ok') {
-                            toastr.success('Add Success');
+                            window.location.reload();
                         } else {
-                            
+                            btn.removeAttr('disabled');
+                            toastr.error(response.message);
                         }
                     }, 'json');
                 }

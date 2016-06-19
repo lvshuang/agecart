@@ -32,9 +32,25 @@ admin_category_add:
     path: /product/category/add
     defaults: { _controller: AdminBundle:ProductCategory:add }
 
+admin_category_edit:
+    path: /product/category/{id}/edit
+    defaults: { _controller: AdminBundle:ProductCategory:edit }
+
+admin_category_delete:
+    path: /product/category/{id}/{type}
+    defaults: { _controller: AdminBundle:ProductCategory:switch }
+    requirements:
+        id: \d+
+        type: enable|disable
+    methods: [POST, PUT]
+
 admin_category_load:
     path: /product/category/load
     defaults: { _controller: AdminBundle:ProductCategory:load }
+
+admin_category_load_select:
+    path: /product/category/select/{id}/load
+    defaults: { _controller: AdminBundle:ProductCategory:selectLoad }
     
 admin_user:
     path: /user

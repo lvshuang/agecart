@@ -1,0 +1,33 @@
+{% set displayName = displayName|default(null) %}
+{% if category.enabled %}
+    {% set type = 'disable' %}
+{% else %}
+    {% set type = 'enable' %}
+{% endif %}
+<tr id="{{ category.id }}">
+    {# <td><input type="checkbox" value="{{ category.id }}"></input></td> #}
+    <td>{% if displayName %}{{displayName}}{% else %}{{ category.name }}{% endif %}</td>
+    <td>{{ category.sort_order }}</td>
+    <td>
+        {% if category.enabled %}
+            <span class="label label-success"><span class="ag-st glyphicon glyphicon-ok"></span></span>
+        {% else %}
+            <span class="label label-danger"><span class="ag-st glyphicon glyphicon-remove"></span></span>
+        {% endif %}
+    </td>
+    <td>{{ category.create_time|date("Y-m-d H:i:s") }}</td>
+    <td>
+        <div class="btn-group btn-group-xs" role="group">
+            <button data-url="{{ path('admin_category_edit', {id: category.id}) }}" class="btn btn-info" data-toggle="modal" data-target="#modal-global">编辑</button>
+            <button type="button" class="btn btn-{% if category.enabled %}danger{% else %}success{% endif %}" data-role="switch" data-type="{% if category.enabled %}disable{% else %}enable{% endif %}" data-url="{{ path('admin_category_delete', {id: category.id, type: type}) }}">
+                {% spaceless %}
+                    {% if category.enabled %}
+                        关闭
+                    {% else %}
+                        启用
+                    {% endif %}
+                {% endspaceless %}
+            </button>
+        </div>
+    </td>
+</tr>

@@ -52,6 +52,11 @@ abstract class BaseService {
     {
         return \Top\Service\Product\Dao\ProductDaoImpl::instance($this->container->get('database_connection'));
     }
+    
+    protected function getProductSkuDao()
+    {
+        return \Top\Service\Product\Dao\ProductSkuDaoImpl::instance($this->container->get('database_connection'));
+    }
 
     protected function getCategoryDao() 
     {
