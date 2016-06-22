@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-    require('kindeditor');
+//    require('kindeditor');
     require('tinymce');
 
     exports.createFullEditor = function(dom, uploadType, options) {
@@ -67,7 +67,8 @@ define(function(require, exports, module) {
         var settings = $.extend({
             selector: selector,
             language: 'zh_CN',
-            plugins : 'autolink media link image lists charmap print preview fullscreen',
+//            subfolder: '/media',
+            plugins : 'autolink table media link image lists charmap print preview fullscreen',
             toolbar: 'bold italic underline fontsizeselect | alignleft, aligncenter, alignright | bullist numlist | undo redo | image media link | preview fullscreen'
         });
         tinymce.init(settings);
