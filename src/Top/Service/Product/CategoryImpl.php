@@ -45,6 +45,14 @@ class CategoryImpl extends \Top\Service\Common\BaseService implements \Top\Servi
         return $this->getCategoryDao()->getCategory($id);
     }
     
+    public function getCategoryByIds(array $ids, $fields = "*")
+    {
+        if (!$ids) {
+            return array();
+        }
+        return $this->getCategoryDao()->getCategoryByIds(array_unique($ids), $fields);
+    }
+    
     public function updateCategory($id, array $updateFields) 
     {
         if (empty($updateFields)) {

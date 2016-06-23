@@ -13,6 +13,8 @@ interface CategoryInterface
     
     public function getCategory($id);
     
+    public function getCategoryByIds(array $ids, $fields = "*");
+    
     public function updateCategory($id, array $updateFields);
     
     public function deleteCategory($id);

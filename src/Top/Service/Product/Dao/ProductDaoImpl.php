@@ -111,4 +111,45 @@ class ProductDaoImpl extends BaseDao implements ProductDao
         return $this->delete(self::TABLE_NAME, array('id' => $id));
     }
     
+    /**
+     * 根据条件获取所有的数据量.
+     * 
+     * @param array $condition 条件.
+     * 
+     * @return integer
+     */
+    public function getCountByCondition(array $condition)
+    {
+        $result = $this->select('COUNT(1) AS total')
+                ->from(self::TABLE_NAME)
+                ->where($condition)
+                ->fetchRow();
+        return (int) $result['total'];
+    }
+    
+    /**
+     * 根据条件获取产品.
+     * 
+     * @param array   $condition 条件.
+     * @param string  $fields    返回的字段.
+     * @param integer $start     开始位置.
+     * @param integer $limit     结束位置.
+     * @param string  $orderBy   排序.
+     * 
+     * @return array
+     */
+    public function getByCondition(array $condition, $fields="*", $start = 0, $limit = null, $orderBy =null)
+    {
+        $stat = $this->select($fields)
+                ->from(self::TABLE_NAME)
+                ->where($condition);
+        if ($orderBy) {
+            $stat = $stat->orderBy($orderBy);
+        }
+        if ($start || $limit) {
+            $stat = $stat->limit($start, $limit);
+        }
+        return $stat->fetchAll();
+    }
+    
 }

@@ -83,6 +83,16 @@ class ProductImpl extends BaseService
         return false;
     }
     
+    public function getProductCount(array $condition)
+    {
+        return $this->getProductDao()->getCountByCondition($condition);
+    }
+    
+    public function getProductList(array $condition, $start, $limit = null, $orderBy = null)
+    {
+        return $this->getProductDao()->getByCondition($condition, '*', $start, $limit, $orderBy);
+    }
+    
     protected function validateProductSku(array $skuInfo)
     {
         $shortName = trim($skuInfo['short_name']);

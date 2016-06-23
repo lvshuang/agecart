@@ -23,6 +23,14 @@ class CategoryDaoImpl extends \Top\Service\Common\BaseDao implements \Top\Servic
                 ->fetchRow();
     }
     
+    public function getCategoryByIds(array $ids, $fields = '*')
+    {
+        return $this->select($fields)
+                ->from(self::TABLE_NAME)
+                ->where(array('id' => $ids))
+                ->fetchAll();
+    }
+    
     public function updateById($id, array $updateFields) 
     {
         return $this->update(self::TABLE_NAME, array('id' => $id), $updateFields);

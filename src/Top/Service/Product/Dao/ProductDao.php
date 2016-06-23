@@ -22,5 +22,9 @@ interface ProductDao
     
     public function getByBrandId($brandId, $fields = '*', $orderBy = null, $start = 0, $limit = null);
     
+    public function getCountByCondition(array $condition);
+    
+    public function getByCondition(array $condition, $fields="*", $start = 0, $limit = null, $orderBy =null);
+    
 }
 

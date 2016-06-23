@@ -124,7 +124,7 @@ abstract class BaseDao
     
     public function orderBy($order)
     {
-        $this->lastSql .= ' ' . $order;
+        $this->lastSql .= ' ORDER BY ' . $order;
         return $this;
     }
     
@@ -156,7 +156,8 @@ abstract class BaseDao
             if (!$connector) {
                 if (is_array($value) && !empty($value)) {
                     $value = array_values($value);
-                    $connector = ' IN';
+                    $marks = str_repeat('?,', count($value) - 1) . '?';
+                    $connector = ' IN (' . $marks . ')';
                 } else {
                     $connector = ' =';
                 }
@@ -183,16 +184,27 @@ abstract class BaseDao
                 }
                 $params[] = $value[0];
                 $params[] = $value[1];
-            } else {
+            } elseif (strpos(trim($connector), 'IN') === 0) {
                 if ($content) {
-                    $content .= $logic . " (`" . $feildName . "` " . $connector . " ? ) ";
+                    $content .= $logic . " (`" . $feildName . "` " . $connector . ") ";
                 } else {
-                    $content = " (`" . $feildName . "` " . $connector . " ? ) ";
+                    $content = " (`" . $feildName . "` " . $connector . ") ";
                 }
-                
                 if (is_array($value)) {
                     $value = array_values($value);
-                    $params[] = '(' . implode(', ', $value) . ')';
+                    $params = array_merge($params, $value);
+                } else {
+                    $params[] = $value;
+                }
+            } else {
+                if ($content) {
+                    $content .= $logic . " (`" . $feildName . "` " . $connector . " ?) ";
+                } else {
+                    $content = " (`" . $feildName . "` " . $connector . " ?) ";
+                }
+                if (is_array($value)) {
+                    $value = array_values($value);
+                    $params = array_merge($params, $value);
                 } else {
                     $params[] = $value;
                 }

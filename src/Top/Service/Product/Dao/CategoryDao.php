@@ -15,6 +15,8 @@ interface CategoryDao
     
     public function getCategory($id);
     
+    public function getCategoryByIds(array $ids, $fields = '*');
+    
     public function updateById($id, array $updateFields);
     
     public function deleteById($id);
