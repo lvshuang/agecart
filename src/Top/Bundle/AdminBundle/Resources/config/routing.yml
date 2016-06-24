@@ -14,15 +14,15 @@ admin_product_add:
     path: /product/add
     defaults: { _controller: AdminBundle:Product:add }
 
+admin_product_edit:
+    path: /product/{id}/edit
+    defaults: { _controller: AdminBundle:Product:edit }
+
 admin_product_sku_add:
     path: /product/{productId}/sku/add
     defaults: { _controller: AdminBundle:ProductSku:add }
     requirements:
         productId: \d+
-
-admin_product_edit:
-    path: /product/{id}/edit
-    defaults: { _controller: AdminBundle:Prodect:edit }
 
 admin_product_category:
     path: /product/category

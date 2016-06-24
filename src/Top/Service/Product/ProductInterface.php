@@ -13,4 +13,6 @@ interface ProductInterface
     
     public function getProductList(array $condition, $start, $limit = null, $orderBy = null);
     
+    public function updateProduct($id, array $updateData);
+    
 }

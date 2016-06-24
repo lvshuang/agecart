@@ -40,6 +40,29 @@ class ProductImpl extends BaseService
         return $this->getProductDao()->getById($id, $field);
     }
     
+    public function updateProduct($id, array $updateData)
+    {
+        if (!filter_var($id, FILTER_VALIDATE_INT)) {
+            throw new BusinessException('参数错误');
+        }
+        $saveData = array();
+        if (isset($updateData['name'])) {
+            $saveData['product_name'] = $updateData['name'];
+        }
+        if (isset($updateData['category_id'])) {
+            $saveData['category_id'] = $updateData['category_id'];
+        }
+        if (isset($updateData['descript'])) {
+            $saveData['description'] = $updateData['descript'];
+        }
+        if (empty($saveData)) {
+            return false;
+        }
+        $saveData['update_time'] = time();
+        
+        return $this->getProductDao()->upateById($id, $saveData);
+    }
+    
     protected function validateProduct($product)
     {
         if (!filter_var($product['category_id'], FILTER_VALIDATE_INT) ||

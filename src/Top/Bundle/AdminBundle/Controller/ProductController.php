@@ -3,7 +3,6 @@
 namespace Top\Bundle\AdminBundle\Controller;
 
 use Top\Bundle\AppBundle\Controller\BaseController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Top\Common\ArrayToolkit;
 
@@ -74,22 +73,37 @@ class ProductController extends BaseController
         ));
     }
     
-    public function editAction(Request $request, $productId)
+    public function editAction(Request $request, $id)
     {
-        $product = $this->getProductService()->getProductById($productId);
+        $product = $this->getProductService()->getProductById($id);
         if (!$product) {
             $this->addFlash('error', '商品不存在');
+            $product = array();
             goto render;
         }
-        $form = $this->buildForm();
+        $product['name'] = $product['product_name'];
+        $form = $this->buildForm($product);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            $data = $form->getData();
+            $productInfo = array(
+                'name' => $data['name'],
+                'category_id' => $data['category_id'],
+                'descript' => $data['description']
+            );
+            try {
+                $this->getProductService()->updateProduct($id, $productInfo);
+                return $this->redirectToRoute('admin_product');
+            } catch (\Exception $ex) {
+                $this->addFlash('error', '添加商品出错');
+                goto render;
+            }
         }
-        
         render:
-        return $this->render('AdminBundle:Product:edit.html.twig', array());
+        return $this->render('AdminBundle:Product:edit.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
     public function deleteAction($id)
