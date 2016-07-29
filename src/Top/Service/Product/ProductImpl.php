@@ -9,7 +9,7 @@ namespace Top\Service\Product;
 use Top\Service\Common\BaseService;
 use Top\Common\BusinessException;
 
-class ProductImpl extends BaseService
+class ProductImpl extends BaseService implements ProductInterface
 {
     
     public function addProduct(array $product)
@@ -78,6 +78,20 @@ class ProductImpl extends BaseService
         }
         return true;
     }
+
+    public function deleteById($id)
+    {
+        if (!filter_var($id, FILTER_VALIDATE_INT)) {
+            throw new BusinessException('商品ID错误');
+        }
+
+        return $this->getProductDao()->deleteById($id);
+    }
+
+    public function deleteByIds(array $ids)
+    {
+
+    }
     
     public function addProductSku($productId, array $skuInfo)
     {
@@ -115,6 +129,11 @@ class ProductImpl extends BaseService
     {
         return $this->getProductDao()->getByCondition($condition, '*', $start, $limit, $orderBy);
     }
+
+    public function getProductSkus($productId, $fields = '*')
+    {
+        return $this->getProductSkuDao()->getByProductId((int) $productId, $fields);
+    }
     
     protected function validateProductSku(array $skuInfo)
     {
@@ -122,7 +141,7 @@ class ProductImpl extends BaseService
         if(!$shortName) {
             throw new BusinessException('商品短标题不能为空');
         }
-        if (!filter_var($skuInfo['price'], FILTER_VALIDATE_BOOLEAN)) {
+        if (!filter_var($skuInfo['price'], FILTER_VALIDATE_FLOAT)) {
             throw new BusinessException('商品价格不正确');
         }
         if (isset($skuInfo['discount_price']) && 

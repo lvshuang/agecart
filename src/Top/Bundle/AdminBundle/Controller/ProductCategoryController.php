@@ -10,9 +10,8 @@ class ProductCategoryController extends BaseController
 {
     public function indexAction()
     {
-        $topCategories = $this->getCategoryService()->makeCategoryTree();
         return $this->render('AdminBundle:ProductCategory:index.html.twig', array(
-            'categoryTree' => $topCategories
+            'categoryTree' => $this->getCategoryService()->makeCategoryTreeV2()
         ));
     }
     
@@ -48,6 +47,10 @@ class ProductCategoryController extends BaseController
     {
         try {
             $category = $this->getCategoryService()->getCategory($id);
+            $parentNames = null;
+            if ($category['parent_id']) {
+                $parentNames = $this->getCategoryService()->getNamesById($category['parent_id']);
+            }
             $category['weight'] = $category['sort_order'];
             $category['keyword'] = $category['meta_keyword'];
             $category['description'] = $category['meta_description'];
@@ -74,6 +77,7 @@ class ProductCategoryController extends BaseController
 
         return $this->render('AdminBundle:ProductCategory:edit.html.twig', array(
             'form' => $form->createView(),
+            'parent_names' => $parentNames,
             'category' => $category
         ));
         
@@ -87,10 +91,10 @@ class ProductCategoryController extends BaseController
         return $this->createJsonResponse($children);
     }
 
-    public function selectLoadAction($id)
+    public function selectLoadAction()
     {
-        $result = $this->getCategoryService()->loadForSelect($id);
-        return $this->createJsonResponse($result);
+        $category = $this->getCategoryService()->loadForSelect();
+        return $this->createJsonResponse($category);
     }
 
     public function switchAction($id, $type)

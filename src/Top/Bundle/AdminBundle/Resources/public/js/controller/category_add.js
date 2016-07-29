@@ -2,18 +2,20 @@ define(function(require, exports, module) {
     var Select = require('category.select');
     var BootstrapValidator = require('bootstrap.validator');
     var toastr = require('toastr');
+    seajs.use("/lib/jquery.autocomplete/1.1.1/jquery.autocomplete.css");
+    require('jquery.autocomplete');
     exports.run = function() {
-        var categorySelect = new Select(
-            {
-                'container': '.parent-category', 
-                'url': $('.parent-category').data('loadUrl'),
-                'level': 2
-            }
-        );
+        // var categorySelect = new Select(
+        //     {
+        //         'container': '.parent-category', 
+        //         'url': $('.parent-category').data('loadUrl'),
+        //         'level': 2
+        //     }
+        // );
         
-        categorySelect.setOnSelect(function(val, level) {
-            $('#form_parent_id').val(val);
-        });
+        // categorySelect.setOnSelect(function(val, level) {
+        //     $('#form_parent_id').val(val);
+        // });
         var validator = new BootstrapValidator({
             'element': 'form'
         });
@@ -44,6 +46,17 @@ define(function(require, exports, module) {
                     }, 'json');
                 }
             });
+        });
+
+        $('#parent-category').AutoComplete({
+            'data': $('#parent-category').data('url'),
+            // 'width': 'auto',
+            // 'beforeLoadDataHandler': function(keyword) {
+            //     return false;
+            // },
+            'afterSelectedHandler': function(data) {
+                $('#form_parent_id').val(data.index);
+            }
         });
         
     };

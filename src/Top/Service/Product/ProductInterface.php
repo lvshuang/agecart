@@ -14,5 +14,11 @@ interface ProductInterface
     public function getProductList(array $condition, $start, $limit = null, $orderBy = null);
     
     public function updateProduct($id, array $updateData);
+
+    public function getProductSkus($productId, $fields = '*');
+
+    public function deleteById($id);
+
+    public function deleteByIds(array $ids);
     
 }

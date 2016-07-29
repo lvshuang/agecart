@@ -2,19 +2,24 @@
 {% set sub_nav = 'category' %}
 {% set script = 'category_list' %}
 {% block main %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('admin_homepage') }}">首页</a></li>
+        <li class="active">分类列表</li>
+    </ol>
     <div class="panel panel-default">
       <div class="panel-heading">
-          商品分类管理
+          分类列表
       </div>
       <div class="panel-body">
         <div class="clearfix mbl">
           <span class="pull-right">
             <div class="btn-group btn-group-sm" role="group">
-              <a data-url="{{ path('admin_category_add') }}" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-global"><span class="glyphicon glyphicon-plus-sign"></span>添加分类</a>
+              <a data-url="{{ path('admin_category_add') }}" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-global"><span class="glyphicon glyphicon-plus"></span>添加分类</a>
               {# <a href="javascript:;" class="btn btn-danger btn-sm delete-all">批量操作</a> #}
             </div>
           </span>
         </div>
+      </div>
         {% if not categoryTree %}
             <div class="alert alert-danger tc">分类为空</div>
         {% else %}
@@ -23,27 +28,14 @@
               {# <th class="select-all text-info cursor-point" data-selected="0">全选</th> #}
               <th>分类名称</th>
               <th>排序</th>
-              <th>状态</th>
+              <th>是否启用</th>
               <th>创建时间</th>
               <th>操作</th>
             </tr>
-            {% for top in categoryTree.top %}
-              {% include 'AdminBundle:ProductCategory:list-item.html.twig' with {'category': top} %}
-              {% set level1 = categoryTree.level1[top.id]|default(null) %}
-              {% if level1 %}
-                {% for category1 in level1 %}
-                  {% include 'AdminBundle:ProductCategory:list-item.html.twig' with {'category': category1, 'displayName': [top.name, category1.name]|join(' > ')} %}
-                  {% set level2 = categoryTree.level2[category1.id]|default(null) %}
-                  {% if level2 %}
-                    {% for category2 in level2 %}
-                      {% include 'AdminBundle:ProductCategory:list-item.html.twig' with {'category': category2, 'displayName': [top.name, category1.name, category2.name]|join(' > ')} %}
-                    {% endfor %}
-                  {% endif %}
-                {% endfor %}
-              {% endif %}
+            {% for category in categoryTree %}
+              {% include 'AdminBundle:ProductCategory:list-item.html.twig' with {category: category} only %}
             {% endfor %}
           </table>
         {% endif %}
-      </div>
     </div>
 {% endblock %}

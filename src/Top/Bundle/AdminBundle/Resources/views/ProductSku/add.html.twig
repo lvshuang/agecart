@@ -2,10 +2,34 @@
 {% set sub_nav = 'product' %}
 {% set script = 'product_sku_add' %}
 {% block main %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('admin_homepage') }}">首页</a></li>
+        <li><a href="{{ path('admin_product') }}">商品列表</a></li>
+        <li><a href="{{ path('admin_product_detail', {id: product.id}) }}">商品详情</a></li>
+        <li class="active">添加SKU</li>
+    </ol>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">商品信息</h3>
+        </div>
+        <table class="table table-bordered table-responsive">
+            <tr>
+                <th width="10%">商品名称</th>
+                <td>{{ product.product_name|raw }}</td>
+                <th width="10%">商品分类</th>
+                <td>
+                    {% if categoryNames is not empty %}
+                        {{ categoryNames|raw }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             添加SKU
-            <span class="pull-right"><a href="{{ path('admin_product') }}" class="btn-link">返回商品列表</a></span>
         </div>
         <div class="panel-body">
             {{ form_start(form, {'attr': {'class': 'form-horizontal', 'id': 'product-sku-form'}}) }}

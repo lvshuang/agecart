@@ -9,6 +9,7 @@ seajs.config({
        'arale.class': 'arale/class/1.1.0/class.js',
        'arale.widget': 'arale/widget/1.1.1/widget.js',
        'arale.validator': 'arale/validator/0.9.7/validator.js',
+       'jquery.autocomplete': 'jquery.autocomplete/1.1.1/jquery.autocomplete',
        'category.select': 'common/js/category_select.js',
        'bootstrap.modal.hack': 'common/js/bootstrap-modal-hack.js',
        'bootstrap.validator': 'common/js/bootstrap-validator.js',

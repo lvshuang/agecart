@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * 基础服务类.
+ * 
+ * @author lvshuang <lvshuang1201@gmail.com>
+ */
 namespace Top\Service\Common;
 
 abstract class BaseService {
@@ -61,6 +65,11 @@ abstract class BaseService {
     protected function getCategoryDao() 
     {
         return \Top\Service\Product\Dao\CategoryDaoImpl::instance($this->container->get('database_connection'));
+    }
+
+    protected function getBrandDao()
+    {
+        return \Top\Service\Product\Dao\BrandDao::instance($this->container->get('database_connection'));
     }
 
     protected function getCategoryService() 

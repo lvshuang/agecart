@@ -1,7 +1,12 @@
 {% extends "AdminBundle:Product:layout.html.twig" %}
 {% set sub_nav = 'product' %}
+{% set script = 'product' %}
 
 {% block main %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('admin_homepage') }}">首页</a></li>
+        <li class="active">商品列表</li>
+    </ol>
     <div class="panel panel-default">
         <div class="panel-heading">
             商品管理
@@ -23,18 +28,20 @@
                         {{ form_label(form.sort, '排序方式') }}
                         {{ form_widget(form.sort, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                    <button type="submit" class="btn btn-info">搜索</button>
+                    <button type="submit" class="btn btn-info">搜索<span class="glyphicon glyphicon-search"></span></button>
                 {{ form_end(form) }}
             </div>
             <div class="clearfix mbl">
                 <span class="pull-right">
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ path('admin_product_add') }}" class="btn btn-info btn-sm">添加商品</a>
-                        <a href="javascript:;" class="btn btn-danger btn-sm delete-all">批量删除</a>
+                        <a href="{{ path('admin_product_add') }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span>添加商品</a>
+                        <a href="javascript:;" class="btn btn-danger btn-sm delete-all"><span class="glyphicon glyphicon-trash"></span>批量删除</a>
                     </div>
                 </span>
             </div>
-            {% if not products %}
+           
+        </div>
+        {% if not products %}
                 <div class="alert alert-danger tc">暂无商品</div>
             {% else %}
                 <table class="table table-responsive">
@@ -42,13 +49,13 @@
                         <th>商品名称</th>
                         <th width="10%">分类</th>
                         <th width="10%">品牌</th>
-                        <th width="5%">SKU数量</th>
-                        <th width="15%">更新时间</th>
+                        <th width="10%">SKU数量</th>
+                        {# <th width="15%">更新时间</th> #}
                         <th width="15%">创建时间</th>
-                        <th width="20%">操作</th>
+                        <th width="18%">操作</th>
                     </tr>
                     {% for product in products %}
-                        <tr>
+                        <tr id="{{ product.id }}">
                             <td>{{ product.product_name }}</td>
                             <td>
                                 {% if categories[product.category_id] %}
@@ -59,21 +66,20 @@
                             </td>
                             <td>{{ product.brand_id }}</td>
                             <td>0</td>
-                            <td>{{ product.update_time <= 0 ? "" : product.update_time|date("Y-m-d") }}</td>
+                            {# <td>{{ product.update_time <= 0 ? "" : product.update_time|date("Y-m-d") }}</td> #}
                             <td>{{ product.create_time is empty ? "" : product.create_time|date("Y-m-d") }}</td>
                             <td>
                                 <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <button type="button" class="btn btn-info">详情</button>
-                                    <button type="button" class="btn btn-success">SKU</button>
+                                    <a href="{{ path('admin_product_detail', {id: product.id}) }}" class="btn btn-info">详情</a>
+                                    <a href="{{ path('admin_product_detail', {id: product.id}) }}#sku" class="btn btn-success">SKU</a>
                                     <div class="btn-group btn-group-xs" role="group">
                                         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             更多
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="{{ path('admin_product_edit', {id: product.id}) }}">编辑</a></li>
-                                            <li><a href="#">下线</a></li>
-                                            <li><a href="#">删除</a></li>
+                                            <li><a href="{{ path('admin_product_edit', {id: product.id}) }}"><span class="glyphicon glyphicon-pencil"></span>编辑</a></li>
+                                            <li><a href="javascrpt:;" class="delete" data-url="{{ path('admin_product_delete') }}" data-id="{{ product.id }}"><span class="glyphicon glyphicon-trash"></span>删除</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -83,7 +89,5 @@
                 </table>
                 {{ macro.paginator(paginator) }}
             {% endif %}
-           
-        </div>
     </div>
 {% endblock %}

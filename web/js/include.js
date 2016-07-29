@@ -135,6 +135,7 @@ function apply_img(file,type_file,external){
 	var target = window_parent.document.getElementsByClassName('mce-img_'+track);
 	var closed = window_parent.document.getElementsByClassName('mce-filemanager');
 	$(target).val(base_url+path+file);
+    console.log(target);
 	$(closed).find('.mce-close').trigger('click');
     }else{
 	var target = window_parent.document.getElementById(external);

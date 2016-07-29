@@ -15,7 +15,7 @@ class ProductSkuDaoImpl extends \Top\Service\Common\BaseDao implements \Top\Serv
         return $this->select($fields)
             ->from(self::TABLE_NAME)
             ->where(array('product_id' => $productId))
-            ->fetchRow();
+            ->fetchAll();
     }
     
     public function getBySku($sku, $fields) 

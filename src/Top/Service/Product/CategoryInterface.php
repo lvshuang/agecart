@@ -31,6 +31,16 @@ interface CategoryInterface
 
     public function getAllowUpdateFields();
     
-    public function loadForSelect($id);
+    public function loadForSelect();
+
+    /**
+    * 返回父分类和当前分类的名称.
+    * 
+    * @param integer $id        当前分类ID.
+    * @param string  $connector 分类连接字符串.
+    * 
+    * @return string
+    */
+    public function getNamesById($id, $connector = ' > ');
 
 }

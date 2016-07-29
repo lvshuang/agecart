@@ -106,9 +106,23 @@ class ProductController extends BaseController
         ));
     }
 
-    public function deleteAction($id)
+    public function deleteAction()
     {
-        
+        $id = $this->get('request')->request->get('id');
+        if (!filter_var($id, FILTER_VALIDATE_INT)) {
+            return $this->createJsonResponse(array('status' => 'error', 'message' => '商品ID错误'));
+        }
+
+        try {
+            $isDeleted = $this->getProductService()->deleteById($id);
+            if (!$isDeleted) {
+                throw new \Exception('删除失败');
+            }
+        } catch (\Exception $e) {
+            return $this->createJsonResponse(array('status' => 'error', 'message' => '删除失败'));
+        }
+
+        return $this->createJsonResponse(array('status' => 'ok', 'message' => '删除成功'));
     }
     
     protected function buildForm($data = null)
@@ -128,9 +142,10 @@ class ProductController extends BaseController
             ->add('name', 'text')
             ->add('sort', 'choice', array(
                 'choices' => array(
-                    'create_time' => '创建时间',
-                    'product_name' => '商品名称'
+                    '创建时间' => 'create_time',
+                    '商品名称' => 'product_name'
                 ),
+                'choices_as_values' => true,
                 'expanded' => false,
                 'multiple' => false,
             ))

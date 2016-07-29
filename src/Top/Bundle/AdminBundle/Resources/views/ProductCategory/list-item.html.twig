@@ -10,9 +10,9 @@
     <td>{{ category.sort_order }}</td>
     <td>
         {% if category.enabled %}
-            <span class="label label-success"><span class="ag-st glyphicon glyphicon-ok"></span></span>
+            <span class="label label-success">是</span>
         {% else %}
-            <span class="label label-danger"><span class="ag-st glyphicon glyphicon-remove"></span></span>
+            <span class="label label-danger">否</span>
         {% endif %}
     </td>
     <td>{{ category.create_time|date("Y-m-d H:i:s") }}</td>

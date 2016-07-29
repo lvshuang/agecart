@@ -17,6 +17,20 @@ admin_product_add:
 admin_product_edit:
     path: /product/{id}/edit
     defaults: { _controller: AdminBundle:Product:edit }
+    requirements:
+        id: \d+
+
+admin_product_delete:
+    path: /product/delete
+    defaults: { _controller: AdminBundle:Product:delete }
+    methods: [POST]
+
+
+admin_product_detail:
+    path: /product/{id}/detail
+    defaults: { _controller: AdminBundle:ProductSku:detail }
+    requirements:
+        id: \d+
 
 admin_product_sku_add:
     path: /product/{productId}/sku/add
@@ -35,6 +49,8 @@ admin_category_add:
 admin_category_edit:
     path: /product/category/{id}/edit
     defaults: { _controller: AdminBundle:ProductCategory:edit }
+    requirements:
+        id: \d+
 
 admin_category_delete:
     path: /product/category/{id}/{type}
@@ -49,8 +65,16 @@ admin_category_load:
     defaults: { _controller: AdminBundle:ProductCategory:load }
 
 admin_category_load_select:
-    path: /product/category/select/{id}/load
+    path: /product/category/select/load
     defaults: { _controller: AdminBundle:ProductCategory:selectLoad }
+
+admin_brand:
+    path: /brand
+    defaults: { _controller: AdminBundle:Brand:index }
+
+admin_brand_add:
+    path: /brand/add
+    defaults: { _controller: AdminBundle:Brand:add }
     
 admin_user:
     path: /user

@@ -108,6 +108,18 @@ class CategoryImpl extends \Top\Service\Common\BaseService implements \Top\Servi
         
         return array('top' => $topCategories, 'level1' => $level1Categories, 'level2' => $level2Categories);
     }
+
+    public function makeCategoryTreeV2()
+    {
+        $categories = $this->getCategoryDao()->getAll('parent_id ASC');
+        $tree = array();
+        foreach ($categories as $category) {
+            $tmp = $category;
+            $tmp['name'] = $this->getNamesFromAllCategory($category, $categories, ' > ');
+            $tree[$tmp['id']] = $tmp;
+        }
+        return $tree;
+    }
     
     public function getTopCategory() 
     {
@@ -160,69 +172,52 @@ class CategoryImpl extends \Top\Service\Common\BaseService implements \Top\Servi
         return $this->updateCategory($id, array('enabled' => 0, 'update_time' => time()));
     }
     
-    public function loadForSelect($id)
+    public function loadForSelect()
     {
-        if (!filter_var($id, FILTER_VALIDATE_INT)) {
-            throw new BusinessException('PARAM_ERROR');
-        }
-        $allCategories = $this->getCategoryDao()->getAll();
-        $level1Categories = array();
-        $level2Categories = array();
-        $level3Categories = array();
-        $currentCategory = null;
+        $allCategories = $this->getCategoryDao()->getAll('parent_id ASC, name ASC');
         
+        $return = array();
         foreach ($allCategories as $category) {
-            if (!$currentCategory && $category['id'] == $id) {
-                $currentCategory = $category;
-                break;
-            }
+            $return[$category['id']] = $this->getNamesFromAllCategory($category, $allCategories, ' > ');
         }
-        if (!$currentCategory) {
-            throw new BusinessException('当前分类不存在');
-        }
-        
-        // 找出所有父分类
-        $parentIds = array();
-        $tmpId = $id;
-        while (true) {
-            foreach ($allCategories as $category) {
-                if ($category['id'] == $tmpId) {
-                    if ($category['parent_id']) {
-                        $parentIds[] =  $tmpId = $category['parent_id'];
-                        break;
-                    } else {
-                        break 2;
-                    }
-                }
-            }
-        }
-        $parentIds = array_reverse($parentIds);
-        $count = count($parentIds);
-        foreach ($allCategories as $category) {
-            if ($category['parent_id'] == 0) {
-                if ($count == 0 && $category['id'] == $id) {
-                    $category['selected'] = 1;
-                } else {
-                    $selectId = array_shift($parentIds);
-                    if ($selectId == $category['id']) {
-                        $category['selected'] = 1;
-                    }
-                }
-                $level1Categories[] = $category;
-            }
-            if (!$count) {
-                continue;
-            }
-            $count --;
-            
-        }
-        return array($level1Categories);
-        
+        return $return;
     }
 
     public function getAllowUpdateFields()
     {
         return $this->allowUpdateFields;
+    }
+
+    public function getNamesById($id, $connector = ' > ')
+    {
+        $currentCategory = $this->getCategory($id);
+        if (!$currentCategory) {
+            throw new BusinessException('分类不存在');
+        }
+        $categories = $this->getCategoryDao()->getAll();
+        
+        return $this->getNamesFromAllCategory($currentCategory, $categories, $connector);
+    }
+
+    protected function getNamesFromAllCategory($currentCategory, array $categories, $connector = ' > ')
+    {
+        $names = array();
+        $names[] = $currentCategory['name'];
+        $parentId = $currentCategory['parent_id'];
+        while (true) {
+            if (0 == $parentId) {
+                break;
+            }
+            foreach ($categories as $category) {
+                if ($parentId == $category['id']) {
+                    $names[] = $category['name'];
+                    $parentId = $category['parent_id'];
+                    break;
+                }
+            }
+        }
+
+        return implode($connector, array_reverse($names));
     }
 
     protected function validateCategory(array $category)

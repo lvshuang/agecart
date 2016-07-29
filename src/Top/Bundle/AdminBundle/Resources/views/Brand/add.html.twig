@@ -1,0 +1,45 @@
+{% extends 'AdminBundle:Product:layout.html.twig' %}
+{% set sub_nav = 'brand' %}
+{% set script = 'brand_add' %}
+{% block main %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            添加新品牌
+        </div>
+        <div class="panel-body">
+            {% if form_errors(form) %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ form_errors(form) }}
+            </div>
+            {% endif %}
+            {{ form_start(form, {'attr': {'class': 'form-horizontal', 'id': 'brand-form'}}) }}
+                {{ macro.form_row(form.name, '品牌名称', {'attr': {'class': 'form-control', 'placeholder' : '品牌名称'}}) }}
+                <div class="form-group">
+                    {{ form_label(form.category_id, '品牌分类', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                    <div class="col-sm-10 parent-category" id="category" data-load-url="{{ path('admin_category_load') }}">
+                        {{ form_widget(form.category_id) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">品牌LOGO</label>
+                    <div class="col-sm-10">
+                        <button class="btn btn-default btn-xs">选择LOGO</button>
+                        <span class="help-block">只支持JPG、JPEG和PNG格式图片</span>
+                    </div>
+                </div>
+                {{ macro.form_row(form.weight, '排序', {'attr': {'class': 'form-control'}}) }}
+                {{ macro.form_row(form.description, '品牌描述', {'attr': {'class': 'form-control', 'rows' : '10'}}) }}
+                <div class="form-group">
+                    {{ form_label(form.is_top, '置顶显示', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                    {{ form_widget(form.is_top, {'attr': {'class': 'col-sm-10'}}) }}
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-info">保存</button>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
