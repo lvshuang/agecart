@@ -2,6 +2,10 @@
     -webkit-font-smoothing: antialiased;
 }
 
+body {
+    font-size: 13px;
+}
+
 .agc-nav {
     background: #3097D1;
     font-weight: 400;
@@ -41,6 +45,61 @@
 
 .cursor-help {
     cursor: help;
+}
+
+.age-mutil-input .help-block {
+    display: none;
+}
+
+.ag-brand-logo-prev {
+    display: block;
+    width: 100px;
+    /*height: 100px; */
+    position: relative;;
+}
+
+.ag-brand-logo-pre-info {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
+    filter:Alpha(opacity=0.3);
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 20px;
+    line-height: 20px;
+    text-indent: 5px;
+    color: #fff;
+    overflow: hidden;
+    font-size: 10px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ag-brand-logo-pre-error {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    background: red;
+    color: white;
+    text-align: center;
+    height: 20px;
+    font-size: 14px;
+    line-height: 23px;
+}
+
+.ag-brand-logo-pre-success {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    background: green;
+    color: white;
+    text-align: center;
+    height: 20px;
+    font-size: 14px;
+    line-height: 23px;
 }
 
 

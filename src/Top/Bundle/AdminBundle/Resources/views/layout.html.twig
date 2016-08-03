@@ -91,16 +91,18 @@
             </div>
         </div>
     </body>
-{#    <script type="text/javascript" src="{{ asset('lib/jquery/1.11.3/jquery.min.js') }}"></script>#}
-    <script type="text/javascript" src="{{ asset('lib/seajs/2.3.0/sea.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('lib/seajs/2.3.0/sea-css.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('lib/seajs/config.js') }}"></script>
-{#    <script type="text/javascript" src="{{ asset('lib/bootstrap/3.3.5/js/bootstrap.min.js') }}"></script>#}
+    
     <script type="text/javascript">
         var app = {};
         app.user = {{ app.user }}
         app.login = app.user ? true : false;
-        
+        app.debug = {% if app.debug %}true{% else %}false{% endif %};
+        app.version = '{{ assets_version() }}';
+    </script>
+    <script type="text/javascript" src="{{ asset('lib/seajs/2.3.0/sea.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/seajs/2.3.0/sea-css.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/seajs/config.js') }}"></script>
+    <script type="text/javascript">
         {% set script = script|default(null) %}
         {% if script %}
             window.app.script = '{{script}}';

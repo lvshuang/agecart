@@ -1,5 +1,6 @@
 {% extends 'AdminBundle:Product:layout.html.twig' %}
 {% set sub_nav = 'brand' %}
+{% set script = 'brand/list' %}
 
 {% block main %}
     <ol class="breadcrumb">
@@ -11,6 +12,29 @@
             品牌管理
         </div>
         <div class="panel-body">
+            <div class="search-form pull-left">
+                {% if form_errors(searchForm) %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ form_errors(searchForm) }}
+                    </div>
+                {% endif %}
+                {{ form_start(searchForm, {'attr': {'class': 'form-inline', 'id': 'product-search-form', 'novalidate': 'novalidate'}}) }}
+                    <div class="form-group">
+                        {{ form_label(searchForm.name, '名称') }}
+                        {{ form_widget(searchForm.name, {'attr': {'class': 'form-control', 'placeholder': '模糊匹配'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(searchForm.short_name, '缩写') }}
+                        {{ form_widget(searchForm.short_name, {'attr': {'class': 'form-control', 'placeholder': '模糊匹配'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(searchForm.sort, '排序方式') }}
+                        {{ form_widget(searchForm.sort, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <button type="submit" class="btn btn-info">搜索<span class="glyphicon glyphicon-search"></span></button>
+                {{ form_end(searchForm) }}
+            </div>
             <div class="clearfix mbl">
                 <span class="pull-right">
                     <div class="btn-group btn-group-sm" role="group">
@@ -22,6 +46,23 @@
             </div>
         </div>
             {% if brands %}
+                <table class="table table-responsive">
+                    <tr>
+                        <th>品牌id</th>
+                        <th width="15%">名称</th>
+                        <th>缩写</th>
+                        <th width="120px">LOGO</th>
+                        <th width="10%">分类</th>
+                        <th>启用</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    {% for brand in brands %}
+                        {% set category = categories[brand.category_id]|default(null) %}
+                        {% include 'AdminBundle:Brand:list-item.html.twig' with {'brand': brand, 'category': category} only %} 
+                    {% endfor %}
+                </table>
+                {{ macro.paginator(paginator) }}
             {% else %}
                 <div class="alert alert-danger tc" role="alert">
                     暂无品牌

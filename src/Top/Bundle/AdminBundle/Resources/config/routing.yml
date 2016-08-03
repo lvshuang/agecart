@@ -25,7 +25,6 @@ admin_product_delete:
     defaults: { _controller: AdminBundle:Product:delete }
     methods: [POST]
 
-
 admin_product_detail:
     path: /product/{id}/detail
     defaults: { _controller: AdminBundle:ProductSku:detail }
@@ -72,9 +71,46 @@ admin_brand:
     path: /brand
     defaults: { _controller: AdminBundle:Brand:index }
 
+admin_brand_name_check:
+    path: /brand/name/check
+    defaults: { _controller: AdminBundle:Brand:nameCheck }
+
+admin_brand_edit_name_check:
+    path: /brand/edit/{id}/name/check
+    defaults: { _controller: AdminBundle:Brand:editNameCheck }
+
 admin_brand_add:
     path: /brand/add
     defaults: { _controller: AdminBundle:Brand:add }
+
+admin_brand_logo_upload:
+    path: /brand/logo/upload
+    defaults: { _controller: AdminBundle:Brand:logoUpload }
+
+admin_brand_detail:
+    path: /brand/{id}/detail
+    defaults: { _controller: AdminBundle:Brand:detail }
+    requirements:
+        id: \d+
+
+admin_brand_edit:
+    path: /brand/{id}/edit
+    defaults: { _controller: AdminBundle:Brand:edit }
+    requirements:
+        id: \d+
+
+admin_brand_switch:
+    path: /brand/{id}/{type}/switch
+    defaults: { _controller: AdminBundle:Brand:switch }
+    requirements:
+        id: \d+
+        type: enable|disable
+    methods: [POST, PUT]
+
+admin_brand_delete:
+    path: /brand/delete
+    defaults: { _controller: AdminBundle:Brand:delete }
+    methods: [POST, PUT]
     
 admin_user:
     path: /user

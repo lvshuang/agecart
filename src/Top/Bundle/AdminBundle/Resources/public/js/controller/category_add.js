@@ -5,17 +5,6 @@ define(function(require, exports, module) {
     seajs.use("/lib/jquery.autocomplete/1.1.1/jquery.autocomplete.css");
     require('jquery.autocomplete');
     exports.run = function() {
-        // var categorySelect = new Select(
-        //     {
-        //         'container': '.parent-category', 
-        //         'url': $('.parent-category').data('loadUrl'),
-        //         'level': 2
-        //     }
-        // );
-        
-        // categorySelect.setOnSelect(function(val, level) {
-        //     $('#form_parent_id').val(val);
-        // });
         var validator = new BootstrapValidator({
             'element': 'form'
         });

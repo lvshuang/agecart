@@ -58,5 +58,22 @@
             {% endblock %}
         </div>
     </body>
+    <script type="text/javascript">
+        var app = {};
+        app.debug = {% if app.debug %}true{% else %}false{% endif %};
+        app.version = '{{ assets_version() }}';
+
+        {% if app.user %}
+            app.user = {
+              id : {{ app.user.id }},
+              login : true
+            };
+        {% else %}
+            app.user = {
+              id : 0,
+              login : false
+            };
+        {% endif %}
+    </script>
 </html>
 

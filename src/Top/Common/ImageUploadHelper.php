@@ -129,12 +129,12 @@ class ImageUploadHelper {
     }
 
     public function getPublicUploadFilePath(){
-        $path = $this->container->getParameter('topxia.upload.path');
+        $path = $this->container->getParameter('top.upload.path');
         return realpath($path);
     }
 
     public function getPrivateUploadFilePath(){
-        $path = $this->container->getParameter('topxia.privateUpload.path');
+        $path = $this->container->getParameter('top.privateUpload.path');
         return realpath($path);
     }
 
@@ -158,7 +158,7 @@ class ImageUploadHelper {
     }
 
     private function checkFileSize ($file) {
-        $maxSize = $this->container->getParameter('topxia.upload.maxsize');
+        $maxSize = $this->container->getParameter('top.upload.maxsize');
         return $file->getSize() < $maxSize;
     }
 

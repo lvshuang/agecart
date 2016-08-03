@@ -37,11 +37,6 @@
             <div class="form-group">
                 {{ form_label(form.attributes, 'SKU属性', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
                 <div class="col-sm-10" id="attributes">
-                    <div class="agc-mbm">
-                        <a href="javascript:;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-global-sm" title="添加新属性">
-                            添加新属性<span class="glyphicon glyphicon-plus agc-mls"></span>
-                        </a>
-                    </div>
                     <table class="table table-bordered">
                         <tr>
                             <th>属性名称</th>
@@ -59,6 +54,11 @@
                             <td><a href="#" class="btn-link btn-sm delete">删除属性</a></td>
                         </tr>
                     </table>
+                    <div class="agc-mbm">
+                        <a href="javascript:;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-global-sm" title="添加新属性">
+                            添加新属性<span class="glyphicon glyphicon-plus agc-mls"></span>
+                        </a>
+                    </div>
                 </div>
             </div>
             {{ macro.form_row(form.price, '商品价格', {'attr': {'class': 'form-control'}}) }}

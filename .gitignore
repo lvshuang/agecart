@@ -15,3 +15,5 @@
 /app/config/routing_dev.yml
 /nbproject/private/
 /nbproject/*
+/web/upload/*
+/web/thumbs/*

@@ -2,11 +2,16 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host:     127.0.0.1
-    database_port:     ~
-    database_name:     symfony
-    database_user:     root
-    database_password: ~
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: weage
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
 
@@ -17,3 +22,22 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    
+    top.upload.path: %kernel.root_dir%/../web/upload
+    top.privateUpload.path: %kernel.root_dir%/../data
+    top.log.path: %kernel.root_dir%/logs
+    top.upload.webpath: /files/
+    top.upload.maxsize: 2048000
+    oauth:
+        weibo:
+            key: 3516312356
+            secret: d56c86fd9cd2556490a81ac2ad89150f
+        qq:
+            key: 101140581
+            secret: 7d092b8e3342be7780f33214577e1d7c
+        renren:
+            key: 79be2fffd04c41c2be0f3035de755754
+            secret: 534cf7b315cf49d4a7876b53e96c978e
+        douban:
+            key: 0a39a1132ad4a1391eace339807de3ab
+            secret: f963e445cb1bd9dd

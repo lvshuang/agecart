@@ -5,11 +5,11 @@
     <ol class="breadcrumb">
         <li><a href="{{ path('admin_homepage') }}">首页</a></li>
         <li><a href="{{ path('admin_brand') }}">品牌列表</a></li>
-        <li class="active">新增品牌</li>
+        <li class="active">编辑品牌</li>
     </ol>
     <div class="panel panel-default">
         <div class="panel-heading">
-            新增品牌
+            编辑品牌
         </div>
         <div class="panel-body">
             {% if form_errors(form) %}
@@ -19,13 +19,13 @@
             </div>
             {% endif %}
             {{ form_start(form, {'attr': {'class': 'form-horizontal', 'id': 'brand-form'}}) }}
-                {{ macro.form_row(form.name, '品牌名称', {'attr': {'class': 'form-control', 'data-check-url': path('admin_brand_name_check'), 'placeholder' : '品牌名称'}}, '不大于64字符，不得重复') }}
+                {{ macro.form_row(form.name, '品牌名称', {'attr': {'class': 'form-control', 'data-check-url': path('admin_brand_edit_name_check', {id: brand.id}), 'placeholder' : '品牌名称'}}, '不大于64字符，不得重复') }}
                 {{ macro.form_row(form.short_name, '名称缩写', {'attr': {'class': 'form-control', 'placeholder' : '品牌名称缩写'}}, '不大于64字符') }}
                 <div class="form-group">
                     {{ form_label(form.category_id, '品牌分类', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
                     <div class="col-sm-10">
                         <div class="age-mutil-input">
-                            <input type="text" class="form-control" name="category" id="category" data-url="{{ path('admin_category_load_select') }}" />
+                            <input type="text" class="form-control" name="category" id="category" value="{{ categoryName }}" data-url="{{ path('admin_category_load_select') }}" />
                         </div>
                         {{ form_widget(form.category_id) }}
                     </div>

@@ -19,6 +19,14 @@ class BrandDao extends \Top\Service\Common\BaseDao implements \Top\Service\Produ
             ->fetchRow();
     }
 
+    public function getBrandByName($name, $fields = '*')
+    {
+        return $this->select($fields)
+            ->from(self::TABLE_NAME)
+            ->where(array('name' => $name))
+            ->fetchRow();
+    }
+
     public function getByCategoryId($categoryId, $fields = '*')
     {
         return $this->select($fields)
@@ -43,6 +51,16 @@ class BrandDao extends \Top\Service\Common\BaseDao implements \Top\Service\Produ
             ->from(self::TABLE_NAME)
             ->where($condition)
             ->count();
+    }
+
+    public function updateById($id, array $updateData)
+    {
+        return $this->update(self::TABLE_NAME, array('id' => $id), $updateData);
+    }
+
+    public function deleteById($id)
+    {
+        return $this->delete(self::TABLE_NAME, array('id' => $id));
     }
 
 }
