@@ -64,10 +64,11 @@ define(function(require, exports, module) {
     };
     
     exports.tinyMce = function(selector, uplaodUrl, options) {
+        var hostname = window.location.hostname;
         var settings = $.extend({
             selector: selector,
             language: 'zh_CN',
-//            subfolder: '/media',
+            convert_urls: false,
             plugins : 'autolink table media link image lists charmap print preview fullscreen',
             toolbar: 'bold italic underline fontsizeselect | alignleft, aligncenter, alignright | bullist numlist | undo redo | image media link | preview fullscreen'
         });

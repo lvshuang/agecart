@@ -17,10 +17,15 @@ class ProductSkuController extends BaseController
         if ($product['category_id']) {
             $categoryNames = $this->getCategoryService()->getNamesById($product['category_id']);
         }
+        $brand = null;
+        if ($product['brand_id']) {
+            $brand = $this->getBrandService()->getBrandById($product['brand_id']);
+        }
         $skus = $this->getProductService()->getProductSkus($id);
         $data = array(
             'product' => $product,
             'categoryNames' => $categoryNames,
+            'brand' => $brand,
             'skus' => $skus
         );
         return $this->render('AdminBundle:ProductSku:detail.html.twig', $data);

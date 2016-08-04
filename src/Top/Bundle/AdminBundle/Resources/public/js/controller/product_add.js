@@ -1,23 +1,11 @@
 define(function(require, exports, module){
-    var Select = require('category.select');
+    seajs.use("jquery.autocomplete.css");
+    require('jquery.autocomplete');
+
     var BootstrapValidator = require('bootstrap.validator');
     var EditorHelper = require('editor-helper');
     
     exports.run = function() {
-        var categorySelect = new Select({
-            'container': '.parent-category', 
-            'url': $('.parent-category').data('loadUrl'),
-            'level': 3
-        });
-        
-        categorySelect.setOnSelect(function(val, level) {
-            var categoryInput = $('#form_category_id');
-            if (val) {
-                categoryInput.val(val);
-            } else {
-                categoryInput.val('');
-            }
-        });
         
         var editorHelper = EditorHelper.tinyMce('#form_description');
         var validator = new BootstrapValidator({
@@ -32,6 +20,20 @@ define(function(require, exports, module){
            element: '[name="form[category_id]"]',
            required: true,
            errormessageRequired: '请选择商品分类'
+        });
+
+        $('#category').AutoComplete({
+            'data': $('#category').data('url'),
+            'afterSelectedHandler': function(data) {
+                $('#form_category_id').val(data.index);
+            }
+        });
+
+        $('#brand').AutoComplete({
+            'data': $('#brand').data('url'),
+            'afterSelectedHandler': function(data) {
+                $('#form_brand_id').val(data.index);
+            }
         });
         
     };

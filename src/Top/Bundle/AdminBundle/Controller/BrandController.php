@@ -212,6 +212,20 @@ class BrandController extends BaseController
 
         return $this->createJsonResponse(['status' => 'ok', 'message' => '删除成功']);
     }
+
+    public function loadAction(Request $request)
+    {
+        $name = $request->query->get('keyword');
+        $condition = $name ? ['name' => $name] : [];
+        $brands = $this->getBrandService()->getBrandsByCondition($condition, 'id, name', 'name ASC');
+
+        $return = [];
+        foreach ($brands as $brand) {
+            $return[$brand['id']] = $brand['name'];
+        }
+
+        return $this->createJsonResponse($return);
+    }
     
     protected function buildForm(array $data = array())
     {

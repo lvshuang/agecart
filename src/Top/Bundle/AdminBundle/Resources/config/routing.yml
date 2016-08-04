@@ -111,6 +111,10 @@ admin_brand_delete:
     path: /brand/delete
     defaults: { _controller: AdminBundle:Brand:delete }
     methods: [POST, PUT]
+
+admin_brand_load:
+    path: /brand/load
+    defaults: { _controller: AdminBundle:Brand:load }
     
 admin_user:
     path: /user

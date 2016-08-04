@@ -22,6 +22,7 @@ class ProductImpl extends BaseService implements ProductInterface
             $productInfo = array(
                 'product_name' => $product['name'],
                 'category_id' => $product['category_id'],
+                'brand_id' => $product['brand_id'],
                 'description' => $product['descript'],
                 'create_time' => time()
             );
@@ -52,6 +53,9 @@ class ProductImpl extends BaseService implements ProductInterface
         if (isset($updateData['category_id'])) {
             $saveData['category_id'] = $updateData['category_id'];
         }
+        if (isset($updateData['brand_id'])) {
+            $saveData['brand_id'] = $updateData['brand_id'];
+        }
         if (isset($updateData['descript'])) {
             $saveData['description'] = $updateData['descript'];
         }
@@ -65,11 +69,18 @@ class ProductImpl extends BaseService implements ProductInterface
     
     protected function validateProduct($product)
     {
-        if (!filter_var($product['category_id'], FILTER_VALIDATE_INT) ||
+        if (!\Top\Component\Validator\SimpleValidator::isUint($product['category_id']) ||
             !$this->getCategoryService()->isCategoryExist($product['category_id'])
         ) {
             throw new BusinessException('分类不正确或者分类不存在');
         }
+
+        if (!\Top\Component\Validator\SimpleValidator::isUint($product['brand_id']) || 
+            !$this->getBrandService()->isBrandExist($product['brand_id'])
+        ) {
+            throw new BusinessException('品牌不正确或者品牌不存在');
+        }
+
         if (empty($product['name']) || 
             mb_strlen($product['name']) < 2 || 
             mb_strlen($product['name']) > 64
@@ -164,6 +175,11 @@ class ProductImpl extends BaseService implements ProductInterface
     public function generateSku($prefix)
     {
         return uniqid('SKU-' . $prefix);
+    }
+
+    protected function getBrandService()
+    {
+        return \Top\Service\Product\BrandImpl::instance($this->container);
     }
     
 }

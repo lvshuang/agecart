@@ -11,10 +11,21 @@
         <div class="panel-heading">
             <h3 class="panel-title">商品详情</h3>
         </div>
+        <div class="panel-body">
+            <div class="clearfix mbl">
+                <span class="pull-right">
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a href="{{ path('admin_product_edit', {id: product.id}) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+                    </div>
+                </span>
+            </div>
+        </div>
         <table class="table table-bordered table-responsive">
             <tr>
                 <th width="10%">商品名称</th>
-                <td>{{ product.product_name|raw }}</td>
+                <td>{{ product.product_name }}</td>
+            </tr>
+            <tr>    
                 <th width="10%">商品分类</th>
                 <td>
                     {% if categoryNames is not empty %}
@@ -25,8 +36,21 @@
                 </td>
             </tr>
             <tr>
+                <th width="10%">品牌</th>
+                <td>
+                    {% if brand %}
+                        {{ brand.name }}
+                        {% if brand.logo %}
+                            <img src="/upload/{{ brand.logo }}">
+                        {% endif %}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
                 <th width="10%">商品描述</th>
-                <td colspan="3">{{ product.description|raw }}</td>
+                <td>{{ product.description|raw }}</td>
             </tr>
         </table>
     </div>

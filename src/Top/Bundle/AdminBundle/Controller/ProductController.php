@@ -56,6 +56,7 @@ class ProductController extends BaseController
             $data = $form->getData();
             $productInfo = array(
                 'name' => $data['name'],
+                'brand_id' => $data['brand_id'],
                 'category_id' => $data['category_id'],
                 'descript' => $data['description']
             );
@@ -77,10 +78,19 @@ class ProductController extends BaseController
     {
         $product = $this->getProductService()->getProductById($id);
         if (!$product) {
-            $this->addFlash('error', '商品不存在');
-            $product = array();
-            goto render;
+            throw $this->createNotFoundException('商品不存在');
         }
+
+        $categoryName = null;
+        if (isset($product['category_id'])) {
+            $categoryName = $this->getCategoryService()->getNamesById($product['category_id']);
+        }
+        $brandName = null;
+        if (isset($product['brand_id'])) {
+            $brand = $this->getBrandService()->getBrandById($product['brand_id'], 'name');
+            $brandName = $brand['name'];
+        }
+
         $product['name'] = $product['product_name'];
         $form = $this->buildForm($product);
         $form->handleRequest($request);
@@ -90,6 +100,7 @@ class ProductController extends BaseController
             $productInfo = array(
                 'name' => $data['name'],
                 'category_id' => $data['category_id'],
+                'brand_id' => $data['brand_id'],
                 'descript' => $data['description']
             );
             try {
@@ -102,7 +113,10 @@ class ProductController extends BaseController
         }
         render:
         return $this->render('AdminBundle:Product:edit.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'product' => $product,
+            'brandName' => $brandName,
+            'categoryName' => $categoryName,
         ));
     }
 
@@ -124,12 +138,13 @@ class ProductController extends BaseController
 
         return $this->createJsonResponse(array('status' => 'ok', 'message' => '删除成功'));
     }
-    
+
     protected function buildForm($data = null)
     {
         return $this->createFormBuilder($data)
             ->setMethod('POST')
             ->add('name', 'text', array('required' => true))
+            ->add('brand_id', 'hidden')
             ->add('description', 'textarea')
             ->add('category_id', 'hidden', array('required' => true))
             ->getForm();

@@ -37,12 +37,15 @@ class BrandDao extends \Top\Service\Common\BaseDao implements \Top\Service\Produ
 
     public function getByCondition(array $condition, $fields = '*', $orderBy = null, $start = 0, $limit = null)
     {
-        return $this->select($fields)
+        $stat = $this->select($fields)
             ->from(self::TABLE_NAME)
             ->where($condition)
-            ->orderBy($orderBy)
-            ->limit($start, $limit)
-            ->fetchAll();
+            ->orderBy($orderBy);
+        if ($start && $limit) {
+            $stat = $stat->limit($start, $limit);
+        }
+            
+        return $stat->fetchAll();
     }
 
     public function getCountByCondition(array $condition)
