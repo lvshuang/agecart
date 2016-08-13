@@ -102,4 +102,8 @@ body {
     line-height: 23px;
 }
 
+.table>tbody>tr>td.agc-table-va {
+    vertical-align: middle;
+}
+
 

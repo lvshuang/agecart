@@ -31,5 +31,7 @@ define(function(require, exports, module) {
             $(this).find('button').click();
         });
     }, 2000);
+
+    $('[data-toggle="tooltip"]').tooltip(); // bootstrap tooltip
     
 });

@@ -12,13 +12,14 @@ use Top\Common\BusinessException;
 class ProductImpl extends BaseService implements ProductInterface
 {
     
-    public function addProduct(array $product)
+    public function addProduct(array $product, array $attrs)
     {
         if (empty($product)) {
             throw new BusinessException('product empty');
         }
+        $this->validateProduct($product);
+        $this->getProductDao()->beginTransaction();
         try {
-            $this->validateProduct($product);
             $productInfo = array(
                 'product_name' => $product['name'],
                 'category_id' => $product['category_id'],
@@ -26,8 +27,26 @@ class ProductImpl extends BaseService implements ProductInterface
                 'description' => $product['descript'],
                 'create_time' => time()
             );
-            return $this->getProductDao()->add($productInfo);
+            $productId = $this->getProductDao()->add($productInfo);
+            if (!$productId) {
+                throw new \Exception('添加商品失败');
+            }
+            foreach ($attrs as &$attr) {
+                $attr['product_id'] = $productId;
+                $attr['create_time'] = time();
+            }
+            $insertAttr = $this->getProductAttrDao()->addMutil($attrs);
+            if (!$insertAttr) {
+                throw new \Exception('增加属性失败');
+            }
+            $success = $this->getProductDao()->commit();
+            if ($success) {
+                return $productId;
+            } else {
+                return false;
+            }
         } catch (\Exception $ex) {
+            $this->getProductDao()->rollBack();
             $this->getLogger()->error('创建商品信息失败:' . $ex->getMessage());
             throw $ex;
         }
@@ -180,6 +199,11 @@ class ProductImpl extends BaseService implements ProductInterface
     protected function getBrandService()
     {
         return \Top\Service\Product\BrandImpl::instance($this->container);
+    }
+
+    protected function getProductAttrDao()
+    {
+        return \Top\Service\Product\Dao\ProductAttrDao::instance($this->container->get('database_connection'));
     }
     
 }

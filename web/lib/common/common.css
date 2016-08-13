@@ -34,6 +34,22 @@
     margin-bottom: 15px;
 }
 
+.agc-mts {
+    margin-bottom: 5px;
+}
+
+.agc-mtm {
+    margin-bottom: 10px;
+}
+
+.agc-mtl {
+    margin-bottom: 15px;
+}
+
+.agc-mrs {
+    margin-right: 5px;
+}
+
 .agc-mrs {
     margin-right: 5px;
 }
@@ -57,3 +73,22 @@
 .agc-mll {
     margin-left: 15px;
 }
+
+.agc-pts {
+    padding-top: 5px;
+}
+
+.agc-ptm {
+    padding-top: 10px;
+}
+
+.agc-ptl {
+    padding-top: 15px;
+}
+
+/* 表格垂直居中 */
+.agc-table-va { 
+    display: table-cell;
+    vertical-align: middle;
+}
+

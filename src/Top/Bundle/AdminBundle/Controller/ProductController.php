@@ -54,14 +54,31 @@ class ProductController extends BaseController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $productInfo = array(
+
+            $attrs = array();
+            $attrsInStrings = explode('$', $data['attrs']);
+            foreach ($attrsInStrings as $attrsInString) {
+                $nameAndValue = explode('^', $attrsInString);
+                if ($nameAndValue) {
+                    $attrs[$nameAndValue[0]] = $nameAndValue[1];
+                }
+            }
+            $productInfo = [
                 'name' => $data['name'],
                 'brand_id' => $data['brand_id'],
                 'category_id' => $data['category_id'],
                 'descript' => $data['description']
-            );
+            ];
+            $newAttrs = [];
+            foreach ($attrs as $name => $value) {
+                $tmp = [
+                    'name' => $name,
+                    'value' => $value
+                    ];
+                $newAttrs[] = $tmp;
+            }
             try {
-                $productId = $this->getProductService()->addProduct($productInfo);
+                $productId = $this->getProductService()->addProduct($productInfo, $newAttrs);
                 return $this->redirectToRoute('admin_product_sku_add', array('productId' => $productId));
             } catch (\Exception $ex) {
                 $this->addFlash('error', '添加商品出错');
@@ -147,6 +164,7 @@ class ProductController extends BaseController
             ->add('brand_id', 'hidden')
             ->add('description', 'textarea')
             ->add('category_id', 'hidden', array('required' => true))
+            ->add('attrs', 'hidden')
             ->getForm();
     }
     

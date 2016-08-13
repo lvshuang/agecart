@@ -43,6 +43,7 @@ if (isset($_GET['lang']) && $_GET['lang'] != 'undefined' && is_readable('lang/' 
 }
 if(!isset($_GET['type'])) $_GET['type']=0;
 if(!isset($_GET['field_id'])) $_GET['field_id']='';
+if(!isset($_GET['point_apply_method'])) $_GET['point_apply_method']='';
 
 
 ?>
@@ -51,23 +52,23 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="robots" content="noindex,nofollow">
-        <title>FileManager</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/bootstrap-lightbox.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/style.css" rel="stylesheet" type="text/css" />
-	<link href="css/dropzone.css" type="text/css" rel="stylesheet" />
+        <title>文件管理</title>
+        <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/css/bootstrap-lightbox.min.css" rel="stylesheet" type="text/css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+		<link href="/css/dropzone.css" type="text/css" rel="stylesheet" />
 	<!--[if lt IE 8]><style>
 	.img-container span {
 	    display: inline-block;
 	    height: 100%;
 	}
 	</style><![endif]-->
-        <script type="text/javascript" src="js/jquery.1.9.1.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap-lightbox.min.js"></script>
-	<script type="text/javascript" src="js/dropzone.min.js"></script>
-	<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
-	<script src="js/modernizr.custom.js"></script>
+    <script type="text/javascript" src="/js/jquery.1.9.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-lightbox.min.js"></script>
+	<script type="text/javascript" src="/js/dropzone.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.touchSwipe.min.js"></script>
+	<script src="/js/modernizr.custom.js"></script>
 	<script>
 	    var ext_img=new Array('<?php echo implode("','", $ext_img)?>');
 	    var allowed_ext=new Array('<?php echo implode("','", $ext)?>');
@@ -89,7 +90,8 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
 		    }
 	    };
 	</script>
-	<script type="text/javascript" src="js/include.js"></script>
+	<script type="text/javascript" src="/js/include.js"></script>
+	<script type="text/javascript" src="/lib/utils/file_maneger.js"></script>
     </head>
     <body>
 		<input type="hidden" id="popup" value="<?php echo $popup; ?>" />
@@ -116,13 +118,14 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
 			<input type="hidden" name="popup" value="<?php echo $popup; ?>"/>
 			<input type="hidden" name="editor" value="<?php echo $_GET['editor']?>"/>
 			<input type="hidden" name="lang" value="<?php echo $_GET['lang']?>"/>
-                        <input type="hidden" name="subfolder" value="<?php echo $_GET['subfolder']?>"/>
+            <input type="hidden" name="subfolder" value="<?php echo $_GET['subfolder']?>"/>
+            <input type="hidden" name="point_apply_method" value="<?php echo $_GET['point_apply_method']?>"/>
 			<input type="submit" name="submit" value="OK" />
 		</div>
 	</form>
 	<center><button class="btn btn-large btn-inverse close-uploader"><i class="icon-backward icon-white"></i> <?php echo lang_Return_Files_List?></button></center>
 	<div class="space10"></div><div class="space10"></div>
-</div>
+	</div>
 <!----- uploader div start ------->
 
 <?php } ?>		
@@ -178,6 +181,7 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
 	$link.=$_GET['field_id'] ? $_GET['field_id'] : '';
 	$link.="&subfolder=".$subfolder;
 	$link.="&fldr="; 
+	$link.="&point_apply_method=".$_GET['point_apply_method'];
 	?>
 	<ul class="breadcrumb">
 	<li class="pull-left"><a href="<?php echo $link?>"><i class="icon-home"></i></a></li><li><span class="divider">/</span></li>
@@ -194,7 +198,7 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
 	<?php }
 	}
 	?>
-	<li class="pull-right"><a id="refresh" href="dialog.php?type=<?php echo $_GET['type']?>&editor=<?php echo $_GET['editor'] ? $_GET['editor'] : 'mce_0'; ?>&subfolder=<?php echo $subfolder ?>&popup=<?php echo $popup;?>&field_id=<?php echo $_GET['field_id'] ? $_GET['field_id'] : '';?>&lang=<?php echo $_GET['lang'] ? $_GET['lang'] : 'en_EN'; ?>&fldr=<?php echo $subdir ?>&<?php echo uniqid() ?>"><i class="icon-refresh"></i></a></li>
+	<li class="pull-right"><a id="refresh" href="dialog.php?type=<?php echo $_GET['type']?>&editor=<?php echo $_GET['editor'] ? $_GET['editor'] : 'mce_0'; ?>&subfolder=<?php echo $subfolder ?>&popup=<?php echo $popup;?>&field_id=<?php echo $_GET['field_id'] ? $_GET['field_id'] : '';?>&lang=<?php echo $_GET['lang'] ? $_GET['lang'] : 'en_EN'; ?>&point_apply_method=<?php echo $_GET['point_apply_method']?>&fldr=<?php echo $subdir ?>&<?php echo uniqid() ?>"><i class="icon-refresh"></i></a></li>
 	</ul>
     </div>
     <!----- breadcrumb div end ------->
@@ -217,15 +221,24 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
 		 
 		$dir = opendir($root . $cur_dir);
 		$i = 0;
-					    $k=0;
-					    $start=false;
-					    $end=false;
-		if ($_GET['type']==1) 	 $apply = 'apply_img';
-		elseif($_GET['type']==2) $apply = 'apply_link';
-		elseif($_GET['type']==0 && $_GET['field_id']=='') $apply = 'apply_none';
-		elseif($_GET['type']==3 || $_GET['type']==4 || $_GET['type']==5) $apply = 'apply_video';
-		else				     $apply = 'apply';
-		
+	    $k=0;
+	    $start=false;
+	    $end=false;
+
+	    if (isset($_GET['point_apply_method']) && $_GET['point_apply_method']) {
+	    	$apply = $_GET['point_apply_method'];
+	    } elseif ($_GET['type']==1) {
+			$apply = 'apply_img';
+		} elseif($_GET['type']==2) {
+			$apply = 'apply_link';
+		} elseif($_GET['type']==0 && $_GET['field_id']=='') {
+			$apply = 'apply_none';
+		} elseif($_GET['type']==3 || $_GET['type']==4 || $_GET['type']==5) {
+			$apply = 'apply_video';
+		} else {
+			$apply = 'apply';
+		}
+
 		$files = scandir($root . $cur_dir);
 		
 		foreach ($files as $file) {
@@ -246,11 +259,11 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
 			<li>
 				<figure>
 				    <a title="<?php echo lang_Open?>"
-				    href="dialog.php?type=<?php echo $_GET['type']?>&subfolder=<?php echo $subfolder ?>&editor=<?php echo $_GET['editor'] ? $_GET['editor'] : 'mce_0'; ?>&popup=<?php echo $popup;?>&field_id=<?php echo $_GET['field_id'] ? $_GET['field_id'] : '';?>&lang=<?php echo $_GET['lang'] ? $_GET['lang'] : 'en_EN'; ?>&fldr=<?php echo $src ?>&<?php echo uniqid() ?>">
+				    href="dialog.php?type=<?php echo $_GET['type']?>&subfolder=<?php echo $subfolder ?>&editor=<?php echo $_GET['editor'] ? $_GET['editor'] : 'mce_0'; ?>&popup=<?php echo $popup;?>&field_id=<?php echo $_GET['field_id'] ? $_GET['field_id'] : '';?>&lang=<?php echo $_GET['lang'] ? $_GET['lang'] : 'en_EN'; ?>&point_apply_method=<?php echo $_GET['point_apply_method']?>&fldr=<?php echo $src ?>&<?php echo uniqid() ?>">
 			<?php if($file==".."){ ?>
 				    <div class="img-precontainer">
 					<div class="img-container directory"><span></span>
-					<img class="directory-img"  src="ico/folder<?php if($file=='..') echo "_return"?>.png" alt="folder" />
+					<img class="directory-img"  src="/ico/folder<?php if($file=='..') echo "_return"?>.png" alt="folder" />
 					</div>
 					</div>
 					</a>
@@ -259,7 +272,7 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
 					
 					<div class="img-precontainer">
 					<div class="img-container directory"><span></span>
-					<img class="directory-img"  src="ico/folder<?php if($file=='..') echo "_return"?>.png" alt="folder" />
+					<img class="directory-img"  src="/ico/folder<?php if($file=='..') echo "_return"?>.png" alt="folder" />
 					</div>
 					</div>
 					</a>
@@ -301,9 +314,9 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
 				    $show_original=true;
 				}
 			    }elseif(file_exists('ico/'.strtoupper($file_ext).".png")){
-				    $src = $src_thumb ='ico/'.strtoupper($file_ext).".png";
+				    $src = $src_thumb ='/ico/'.strtoupper($file_ext).".png";
 			    }else{
-				    $src = $src_thumb = "ico/Default.png";
+				    $src = $src_thumb = "/ico/Default.png";
 			    }
 
 			    if (in_array($file_ext, $ext_video)) {
@@ -326,7 +339,7 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
 					<a href="javascript:void('');" title="<?php echo  lang_Select?>" onclick="<?php echo $apply."('".$file."',".$_GET['type'].",'".$_GET['field_id']."');"; ?>">
 					<div class="img-precontainer">
 					<div class="img-container"><span></span>
-					<img data-src="holder.js/122x91" alt="image" <?php echo $show_original ? "class='original'" : "" ?> src="<?php echo $src_thumb; ?>">
+					<img data-src="holder.js/122x91" alt="image" <?php echo $show_original ? "class='original'" : "" ?> src="<?php echo '/' . $src_thumb; ?>">
 					</div>
 					</div>
 					</a>	
@@ -378,7 +391,7 @@ if(!isset($_GET['field_id'])) $_GET['field_id']='';
     <!----- loading div start ------->  
     <div id="loading_container" style="display:none;">
 	    <div id="loading" style="background-color:#000; position:fixed; width:100%; height:100%; top:0px; left:0px;z-index:100000"></div>
-	    <img id="loading_animation" src="img/storing_animation.gif" alt="loading" style="z-index:10001; margin-left:-32px; margin-top:-32px; position:fixed; left:50%; top:50%"/>
+	    <img id="loading_animation" src="/img/storing_animation.gif" alt="loading" style="z-index:10001; margin-left:-32px; margin-top:-32px; position:fixed; left:50%; top:50%"/>
     </div>
     <!----- loading div end ------->
     

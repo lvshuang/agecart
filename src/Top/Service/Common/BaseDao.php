@@ -42,6 +42,21 @@ abstract class BaseDao
         return $this->dbConnection;
     }
 
+    public function beginTransaction()
+    {
+        return $this->getDbConnection()->beginTransaction();
+    }
+
+    public function commit()
+    {
+        return $this->getDbConnection()->commit();
+    }
+
+    public function rollback()
+    {
+        return $this->getDbConnection()->rollBack();
+    }
+
     public function insert($tableName, array $data) 
     {
         if (!$this->dbConnection->insert($tableName, $data)) {

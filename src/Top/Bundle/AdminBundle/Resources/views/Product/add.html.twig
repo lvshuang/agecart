@@ -12,6 +12,12 @@
             添加商品
         </div>
         <div class="panel-body">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#base-info" aria-controls="base-info" role="tab" data-toggle="tab">商品基本信息</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">商品基本属性</a></li>
+                <li role="presentation"><a href="#product-images" aria-controls="product-images" role="tab" data-toggle="tab">商品图片</a></li>
+                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">seo设置</a></li>
+            </ul>
             {% if form_errors(form) %}
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -19,26 +25,66 @@
             </div>
             {% endif %}
             {{ form_start(form, {'attr': {'class': 'form-horizontal', 'id': 'product-form'}}) }}
-                {{ macro.form_row(form.name, '商品名称', {'attr': {'class': 'form-control', 'placeholder' : '商品名称'}}) }}
-                <div class="form-group">
-                    {{ form_label(form.category_id, '商品分类', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-                    <div class="col-sm-10">
-                        <div class="age-mutil-input">
-                            <input type="text" class="form-control" name="category" id="category" data-url="{{ path('admin_category_load_select') }}" />
+              <!-- Tab panes -->
+            <div class="tab-content agc-ptl">
+                <div role="tabpanel" class="tab-pane active" id="base-info">
+                    {{ macro.form_row(form.name, '商品名称', {'attr': {'class': 'form-control', 'placeholder' : '商品名称'}}) }}
+                    <div class="form-group">
+                        {{ form_label(form.category_id, '商品分类', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                        <div class="col-sm-10">
+                            <div class="age-mutil-input">
+                                <input type="text" class="form-control" name="category" id="category" data-url="{{ path('admin_category_load_select') }}" />
+                            </div>
+                            {{ form_widget(form.category_id) }}
                         </div>
-                        {{ form_widget(form.category_id) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.brand_id, '品牌', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                        <div class="col-sm-10">
+                            <div class="age-mutil-input">
+                                <input type="text" class="form-control" name="brand" id="brand" data-url="{{ path('admin_brand_load') }}" />
+                            </div>
+                            {{ form_widget(form.brand_id) }}
+                        </div>
+                    </div>
+                    {{ macro.form_row(form.description, '商品描述', {'attr': {'class': 'form-control', 'rows' : '10'}}) }}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <table class="table table-bordered attribute-list">
+                        <tr>
+                            <th>属性名称</th>
+                            <th>属性值</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr class="attribute-item">
+                            <td><input type="text" name="" class="form-control" /></td>
+                            <td><input type="text" name="" class="form-control" /></td>
+                            <td class="agc-table-va center-block">
+                                <a href="javascript:;" class="text-info agc-mrl add-attribute" title="添加新属性"><span class="glyphicon glyphicon-plus"></span></a>
+                                <a href="javascript:;" class="text-danger del-attribute" title="删除属性"><span class="glyphicon glyphicon-remove"></span></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="product-images">
+                    <table class="table table-bordered image-list">
+                        <tr>
+                            <th>图片</th>
+                            <th>排序</th>
+                            <th>操作</th>
+                        </tr>
+                        
+                    </table>
+                    <div class="pull-right">
+                        <a href="/dialog.php?type=1&subfolder=&editor=form_description&popup=0&field_id=&lang=zh_CN&point_apply_method=apply_img_in_product&fldr=" class="text-info agc-mrl add-image" data-toggle="modal" data-target="#modal-global" title="添加图片"><span class="glyphicon glyphicon-plus"></span>添加图片</a>
                     </div>
                 </div>
-                <div class="form-group">
-                    {{ form_label(form.brand_id, '品牌', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-                    <div class="col-sm-10">
-                        <div class="age-mutil-input">
-                            <input type="text" class="form-control" name="brand" id="brand" data-url="{{ path('admin_brand_load') }}" />
-                        </div>
-                        {{ form_widget(form.brand_id) }}
-                    </div>
+                <div role="tabpanel" class="tab-pane" id="settings">
+
                 </div>
-                {{ macro.form_row(form.description, '商品描述', {'attr': {'class': 'form-control', 'rows' : '10'}}) }}
+            </div>
+            
+                
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-default">下一步</button>
