@@ -1,3 +1,16 @@
 app_homepage:
-    path:     /
+    path: /
     defaults: { _controller: AppBundle:Default:index }
+
+app_product_show:
+    path: /product/{sku}/show
+    defaults: { _controller: AppBundle:Product:show }
+
+app_product_add_to_cart:
+    path: /product/add/to/cart
+    defaults: { _controller: AppBundle:Cart:addToCart }
+    methods: [POST]
+
+app_my_cart:
+    path: /my/cart
+    defaults: { _controller: AppBundle:Cart:my }

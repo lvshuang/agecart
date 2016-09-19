@@ -12,7 +12,7 @@
             添加商品
         </div>
         <div class="panel-body">
-            <ul class="nav nav-tabs" role="tablist">
+            <ul class="nav nav-tabs agc-mbl" role="tablist">
                 <li role="presentation" class="active"><a href="#base-info" aria-controls="base-info" role="tab" data-toggle="tab">商品基本信息</a></li>
                 <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">商品基本属性</a></li>
                 <li role="presentation"><a href="#product-images" aria-controls="product-images" role="tab" data-toggle="tab">商品图片</a></li>
@@ -48,6 +48,11 @@
                         </div>
                     </div>
                     {{ macro.form_row(form.description, '商品描述', {'attr': {'class': 'form-control', 'rows' : '10'}}) }}
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">保存</button>
+                        </div>
+                    </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="profile">
                     <table class="table table-bordered attribute-list">
@@ -83,13 +88,7 @@
 
                 </div>
             </div>
-            
                 
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default">下一步</button>
-                    </div>
-                </div>
             {{ form_end(form) }}
         </div>
     </div>

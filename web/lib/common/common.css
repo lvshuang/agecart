@@ -6,7 +6,7 @@
     margin-bottom: 15px;
 }
 
-.tc {
+.agc-tc, .tc {
     text-align: center;
 }
 
@@ -34,17 +34,19 @@
     margin-bottom: 15px;
 }
 
+
 .agc-mts {
-    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .agc-mtm {
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .agc-mtl {
-    margin-bottom: 15px;
+    margin-top: 15px;
 }
+
 
 .agc-mrs {
     margin-right: 5px;
@@ -62,6 +64,7 @@
     margin-right: 15px;
 }
 
+
 .agc-mls {
     margin-left: 5px;
 }
@@ -74,6 +77,7 @@
     margin-left: 15px;
 }
 
+
 .agc-pts {
     padding-top: 5px;
 }
@@ -82,8 +86,35 @@
     padding-top: 10px;
 }
 
-.agc-ptl {
+.agc-pbl {
     padding-top: 15px;
+}
+
+
+.agc-pbs {
+    padding-bottom: 5px;
+}
+
+.agc-pbm {
+    padding-bottom: 10px;
+}
+
+.agc-pbl {
+    padding-bottom: 15px;
+}
+
+
+
+.agc-pls {
+    padding-left: 5px;
+}
+
+.agc-plm {
+    padding-left: 10px;
+}
+
+.agc-pll {
+    padding-left: 15px;
 }
 
 /* 表格垂直居中 */

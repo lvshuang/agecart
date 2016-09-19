@@ -1,9 +1,5 @@
 {% extends 'AppBundle::layout.html.twig' %}
 {% block body %}
-    {% if not token %}
-        <div class="alert alert-danger" role="alert">获取 token 失败</div>
-    {% else %}
-        <div class="alert alert-success" role="alert">取到 token {{ token.token }}! 将在{{ token.expire_time|date('Y-m-d H:i:s') }}过期</div>
-    {% endif %}
+    
     
 {% endblock %}

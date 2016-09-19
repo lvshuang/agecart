@@ -17,6 +17,8 @@ seajs.config({
         'toastr': 'toastr/2.0.3/toastr.min.js',
         'kindeditor': 'kindeditor/4.1.7/kindeditor',
         'tinymce': 'tinymce/js/tinymce/tinymce.min.js',
+        'ckeditor': 'ckeditor/4.5.11/ckeditor.js',
+        'ckeditor-config': 'ckeditor/4.5.11/config.js',
         'editor-helper': 'utils/editor-helper',
         'webuploader.css': 'webuploader/webuploader.css',
         'webuploader': 'webuploader/webuploader.js',

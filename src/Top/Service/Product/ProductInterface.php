@@ -21,4 +21,6 @@ interface ProductInterface
 
     public function deleteByIds(array $ids);
     
+    public function getSkuInfo($sku);
+    
 }

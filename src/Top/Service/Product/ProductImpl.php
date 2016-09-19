@@ -52,6 +52,16 @@ class ProductImpl extends BaseService implements ProductInterface
         }
     }
     
+    /**
+     * 根据产品id获取产品信息.
+     * 
+     * @param integer $id    产品id.
+     * @param string  $field 返回的字段.
+     * 
+     * @return array
+     * 
+     * @throws BusinessException
+     */
     public function getProductById($id, $field = '*')
     {
         if (!filter_var($id, FILTER_VALIDATE_INT)) {
@@ -159,7 +169,30 @@ class ProductImpl extends BaseService implements ProductInterface
     {
         return $this->getProductDao()->getByCondition($condition, '*', $start, $limit, $orderBy);
     }
-
+    
+    /**
+     * 根据sku返回sku信息.
+     * 
+     * @param string $sku sku.
+     * 
+     * @return boolean|array
+     */
+    public function getSkuInfo($sku)
+    {
+        if (empty($sku)) {
+            return false;
+        }
+        return $this->getProductSkuDao()->getBySku($sku, '*');
+    }
+    
+    /**
+     * 返回产品下的所有sku详情.
+     * 
+     * @param integer $productId 产品id.
+     * @param string  $fields    返回的字段.
+     * 
+     * @return array
+     */
     public function getProductSkus($productId, $fields = '*')
     {
         return $this->getProductSkuDao()->getByProductId((int) $productId, $fields);

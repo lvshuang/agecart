@@ -1,0 +1,37 @@
+{% extends 'AppBundle::layout.html.twig' %}
+{% block title %}{{ product.product_name }} - {{ currentSku.short_name }} - {{ parent() }}{% endblock %}
+{% set script = "product/show" %}
+
+
+{% block body %}
+    <div class="col-md-12">
+        <ol class="breadcrumb agc-mtl">
+          <li><a href="#">首页</a></li>
+          <li><a href="#">数码</a></li>
+          <li><a href="#">摄影</a></li>
+          <li class="active">{{ product.product_name }}</li>
+        </ol>
+    </div>
+    <div class="agc-product">
+        <div class="col-md-4">
+            <img src="http://img11.360buyimg.com/n1/jfs/t1516/284/1382374751/110663/c84cbbc2/55c86befN6b730aa5.jpg" />
+        </div>
+        <div class="col-md-8">
+            <div class="agc-product col-md-6">
+                <div class="agc-product-title">
+                    {{ product.product_name }}  {{ currentSku.short_name }}
+                </div>
+                <div class="bg-warning agc-ptm agc-pbm agc-plm agc-mbl">
+                    <div>价格：{{ currentSku.price }}</div>
+                    <div>库存：{{ currentSku.inventory }}</div>
+                </div>
+                <a href="javascript:;" class="btn btn-danger" id="add-to-cart" data-url="{{ url('app_product_add_to_cart') }}" data-sku="{{ currentSku.sku }}">加入购物车</a>
+            </div>
+            <div class="agc-product-side col-md-2">
+                <div class="agc-brand-logo">
+                    <img src="http://img30.360buyimg.com/popshop/jfs/t901/205/263987725/25349/58fbae94/5510daf1Ne434333c.jpg" width="100px" />
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

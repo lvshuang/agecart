@@ -1,0 +1,30 @@
+{% extends "AppBundle::layout.html.twig" %}
+{% block main_search %}{% endblock %}
+{% block nav %}{% endblock %}
+
+{% block body %}
+    {% if not cart %}
+        <p class="bg-danger agc-tc">空空如也</p>
+    {% else %}
+            <table class="table">
+                <tr>
+                    <th>全选</th>
+                    <th>商品</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                </tr>
+                {% for item in cart.getItems() %}
+                    <tr>
+                        <td></td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.price * item.quantity }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <a href="javascript:;" class="btn btn-danger pull-right">去结算</a>
+    {% endif %}
+
+{% endblock %}
