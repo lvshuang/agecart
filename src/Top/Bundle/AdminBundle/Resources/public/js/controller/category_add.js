@@ -39,15 +39,11 @@ define(function(require, exports, module) {
 
         $('#parent-category').AutoComplete({
             'data': $('#parent-category').data('url'),
-            // 'width': 'auto',
-            // 'beforeLoadDataHandler': function(keyword) {
-            //     return false;
-            // },
             'afterSelectedHandler': function(data) {
                 $('#form_parent_id').val(data.index);
             }
         });
-        
+
     };
     
 });

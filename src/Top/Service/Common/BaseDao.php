@@ -64,6 +64,30 @@ abstract class BaseDao
         }
         return $this->dbConnection->lastInsertId();
     }
+    
+    public function mutilInsert($tableName, array $datas)
+    {
+        if (empty($datas)) {
+            return false;
+        }
+        $keys = array_keys(current($datas));
+        $sql = 'INSERT INTO `' . $tableName . '`';
+        $sql .= '(' . implode(', ', $keys) . ') VALUES ';
+        $valuesInstring = array();
+        $placeholders = array();
+        for ($i = 0; $i < count($keys); $i++) {
+            $placeholders[] = '?';
+        }
+        $params = array();
+        foreach ($datas as $data) {
+            $params = array_merge($params, array_values($data));
+            $valuesInstring[] = '(' . implode(', ', $placeholders) . ')';
+        }
+
+        $sql .= implode(', ' , $valuesInstring);
+
+        return $this->getDbConnection()->executeQuery($sql, $params);
+    }
 
     public function update($tableName, array $condition, array $updateData) 
     {
@@ -91,7 +115,10 @@ abstract class BaseDao
     
     public function delete($tableName, array $condition)
     {
-        return $this->dbConnection->delete($tableName, $condition);
+        $query = 'DELETE FROM ' . $tableName . ' WHERE ';
+        list($condInString, $params) = $this->buildCondition($condition);
+        $query .= $condInString;
+        return $this->dbConnection->executeUpdate($query, $params);
     }
     
     public function count($sql = null)

@@ -2,9 +2,17 @@ app_homepage:
     path: /
     defaults: { _controller: AppBundle:Default:index }
 
+app_new_product:
+    path: /new/product
+    defaults: { _controller: AppBundle:Default:newProduct }
+
 app_product_show:
     path: /product/{sku}/show
     defaults: { _controller: AppBundle:Product:show }
+
+app_product_load_sku:
+    path: /product/sku/load
+    defaults: { _controller: AppBundle:Product:skuLoad }
 
 app_product_add_to_cart:
     path: /product/add/to/cart

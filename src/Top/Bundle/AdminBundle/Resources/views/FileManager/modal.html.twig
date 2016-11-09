@@ -1,0 +1,8 @@
+{% extends "AdminBundle::modal-layout.html.twig" %}
+{% set size = "modal-lg" %}
+{% block title %}选择图片{% endblock %}
+{% block body %}
+    <iframe src="/dialog.php?type=1&subfolder=&editor=form_description&popup=0&field_id=&lang=zh_CN&point_apply_method=apply_img_in_product&fldr=" id="file-iframe"></iframe>
+    <script type="text/javascript">window.app.load('/file_manager/modal.js')</script>
+{% endblock %}
+{% block footer %}{% endblock %}

@@ -11,6 +11,12 @@ define(function(require, exports, module) {
             }, 'json');
         });
 
+        $('.agc-sku-attr-list a').click(function() {
+            var skuAttrs = $('#sku-attrs').text();
+            var skuAttrs = JSON.parse(skuAttrs);
+            console.log(skuAttrs);
+        });
+
     };
 
 });

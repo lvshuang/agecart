@@ -123,3 +123,9 @@ admin_user:
 admin_system:
     path: /system
     defaults: { _controller: AdminBundle:System:index }
+
+admin_modal_file:
+    path: /file/manager/modal
+    defaults: { _controller: AdminBundle:FileManager:modal }
+
+

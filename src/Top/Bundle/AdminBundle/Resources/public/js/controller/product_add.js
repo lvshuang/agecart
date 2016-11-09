@@ -1,10 +1,15 @@
 define(function(require, exports, module){
+
+    // $(window).bind('beforeunload', function (e) {
+    //     return 'closed';
+    // });
+
     seajs.use("jquery.autocomplete.css");
     require('jquery.autocomplete');
 
     var BootstrapValidator = require('bootstrap.validator');
     var EditorHelper = require('editor-helper');
-    
+
     exports.run = function() {
         
         var editorHelper = EditorHelper.tinyMce('#form_description');
@@ -21,32 +26,6 @@ define(function(require, exports, module){
            element: '[name="form[category_id]"]',
            required: true,
            errormessageRequired: '请选择商品分类'
-        });
-
-        $('#product-form').submit(function() {
-            var attributes = [];
-            $('.attribute-list tr.attribute-item').each(function(index, elem) {
-                var name = $(elem).find('input:first').val();
-                if (name) {
-                    var value = $(elem).find('input:last').val();
-                    attributes.push(name + '^' + value);
-                }
-                
-            });
-            var attributesInString = attributes.join('$');
-            if (attributesInString) {
-                $('#form_attrs').val(attributesInString);
-            }
-
-            validator.execute(function(error, results, element) {
-                $(results).each(function(index, value) {
-                    var tabId = $(value[2]).parents('div[role="tabpanel"]').attr('id');
-                    if (tabId) {
-                        $('a[href="#' + tabId + '"]').click();
-                    }
-                });
-            });
-
         });
 
         $('#category').AutoComplete({
@@ -76,6 +55,22 @@ define(function(require, exports, module){
             $(this).parents('tr').remove();
         });
 
+        $('button[type="submit"]').click(function(e) {
+            var attributes = [];
+            $('.attribute-list tr.attribute-item').each(function(index, elem) {
+                var name = $(elem).find('input:first').val();
+                if (name) {
+                    var value = $(elem).find('input:last').val();
+                    attributes.push(name + '^' + value);
+                }
+                
+            });
+            var attributesInString = attributes.join('$');
+            if (attributesInString) {
+                $('#form_attrs').val(attributesInString);
+            }
+            // $(window).unbind('beforeunload');
+        });
 
     };
     

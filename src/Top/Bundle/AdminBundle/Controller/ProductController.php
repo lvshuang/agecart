@@ -60,25 +60,21 @@ class ProductController extends BaseController
             foreach ($attrsInStrings as $attrsInString) {
                 $nameAndValue = explode('^', $attrsInString);
                 if ($nameAndValue) {
-                    $attrs[$nameAndValue[0]] = $nameAndValue[1];
+                    $tmp = ['name' => $nameAndValue[0], 'value' => $nameAndValue[1]];
+                    $attrs[] = $tmp;
                 }
             }
+            $images = explode('||', $data['images']);
             $productInfo = [
                 'name' => $data['name'],
                 'brand_id' => $data['brand_id'],
                 'category_id' => $data['category_id'],
-                'descript' => $data['description']
+                'descript' => $data['description'],
             ];
-            $newAttrs = [];
-            foreach ($attrs as $name => $value) {
-                $tmp = [
-                    'name' => $name,
-                    'value' => $value
-                    ];
-                $newAttrs[] = $tmp;
-            }
+            
             try {
-                $productId = $this->getProductService()->addProduct($productInfo, $newAttrs);
+                $productId = $this->getProductService()->addProduct($productInfo, $attrs, $images);
+                $this->addFlash('success', '添加商品成功');
                 return $this->redirectToRoute('admin_product_sku_add', array('productId' => $productId));
             } catch (\Exception $ex) {
                 $this->addFlash('error', '添加商品出错');
@@ -108,17 +104,30 @@ class ProductController extends BaseController
             $brandName = $brand['name'];
         }
 
+        $productAttrs = $this->getProductService()->getProductAttrs($id);
+
         $product['name'] = $product['product_name'];
         $form = $this->buildForm($product);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $attrs = array();
+            $attrsInStrings = explode('$', $data['attrs']);
+            foreach ($attrsInStrings as $attrsInString) {
+                $nameAndValue = explode('^', $attrsInString);
+                if ($nameAndValue) {
+                    $tmp = ['name' => $nameAndValue[0], 'value' => $nameAndValue[1]];
+                    $attrs[] = $tmp;
+                }
+            }
+           
             $productInfo = array(
                 'name' => $data['name'],
                 'category_id' => $data['category_id'],
                 'brand_id' => $data['brand_id'],
-                'descript' => $data['description']
+                'descript' => $data['description'],
+                'attrs' => $attrs,
             );
             try {
                 $this->getProductService()->updateProduct($id, $productInfo);
@@ -134,6 +143,7 @@ class ProductController extends BaseController
             'product' => $product,
             'brandName' => $brandName,
             'categoryName' => $categoryName,
+            'productAttrs' => $productAttrs,
         ));
     }
 
@@ -165,6 +175,7 @@ class ProductController extends BaseController
             ->add('description', 'textarea')
             ->add('category_id', 'hidden', array('required' => true))
             ->add('attrs', 'hidden')
+            ->add('images', 'hidden')
             ->getForm();
     }
     

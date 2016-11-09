@@ -37,39 +37,48 @@
             <div class="form-group">
                 {{ form_label(form.attributes, 'SKU属性', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
                 <div class="col-sm-10" id="attributes">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered attribute-list">
                         <tr>
                             <th>属性名称</th>
                             <th>属性值</th>
-                            <th></th>
+                            <th>操作</th>
                         </tr>
-                        <tr>
-                            <td>产地</td>
-                            <td>眉山</td>
-                            <td><a href="#" class="btn-link btn-sm delete">删除属性</a></td>
-                        </tr>
-                        <tr>
-                            <td>净含量</td>
-                            <td>250ml</td>
-                            <td><a href="#" class="btn-link btn-sm delete">删除属性</a></td>
+                        <tr class="attribute-item">
+                            <td><input type="text" name="" class="form-control" /></td>
+                            <td><input type="text" name="" class="form-control" /></td>
+                            <td class="agc-table-va center-block">
+                                <a href="javascript:;" class="text-info agc-mrl add-attribute" title="添加新属性"><span class="glyphicon glyphicon-plus"></span></a>
+                                <a href="javascript:;" class="text-danger del-attribute" title="删除属性"><span class="glyphicon glyphicon-remove"></span></a>
+                            </td>
                         </tr>
                     </table>
-                    <div class="agc-mbm">
-                        <a href="javascript:;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-global-sm" title="添加新属性">
-                            添加新属性<span class="glyphicon glyphicon-plus agc-mls"></span>
-                        </a>
-                    </div>
                 </div>
             </div>
             {{ macro.form_row(form.price, '商品价格', {'attr': {'class': 'form-control'}}) }}
             {{ macro.form_row(form.discount_price, '商品折后价', {'attr': {'class': 'form-control'}}) }}
             {{ macro.form_row(form.inventory, '可售库存', {'attr': {'class': "form-control"}}) }}
+            <div class="form-group">
+                <label class="control-label col-sm-2">商品图片</label>
+                <div class="col-sm-10">
+                    <table class="table table-bordered image-list">
+                        <tr>
+                            <th>图片</th>
+                            <th>操作</th>
+                        </tr>
+                    </table>
+                    <div class="pull-right">
+                        <a href="{{ path('admin_modal_file') }}" title="添加图片" class="text-info agc-mrl add-image" data-toggle="modal" data-target="#modal-global"><span class="glyphicon glyphicon-plus"></span>添加图片</a>
+                    </div>
+                </div>
+            </div>
+            
             {{ macro.form_row(form.meta_keyword, 'SEO关键词', {'attr': {'class': "form-control"}}, "多个关键词使用英文逗号(,)隔开") }}
             {{ macro.form_row(form.meta_description, 'SEO描述', {'attr': {'class': "form-control", 'rows': 6}}, "建议128个字符内") }}
             {{ form_rest(form) }}
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-success">保存</button>
+                    <button type="submit" class="btn btn-success" data-action="continue">保存并继续添加</button>
+                    <button type="submit" class="btn btn-danger" data-action="break">保存并结束</button>
                 </div>
             </div>
             {{ form_end(form) }}

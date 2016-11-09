@@ -1,0 +1,15 @@
+{% if products %}
+<div class="row">
+    {% for product in products %}
+        <div class="col-xs-6 col-md-3">
+            <a href="{{ url('app_product_show', {sku: product.sku.sku}) }}" class="thumbnail">
+                {% if product.image %}
+                    <img src="{{ product.image.uri }}" alt="{{ product.product_name }}">
+                {% else %}
+                    {{ product.product_name }}{{ product.sku.short_name }}
+                {% endif %}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}

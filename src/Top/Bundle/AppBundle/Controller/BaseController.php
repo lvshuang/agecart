@@ -28,6 +28,11 @@ class BaseController extends Controller
         return \Top\Service\Product\BrandImpl::instance($this->container);
     }
 
+    protected function getProductFontendService()
+    {
+        return \Top\Service\Product\ProductFontendImpl::instance($this->container);
+    }
+
     protected function createJsonResponse($data)
     {
         $response = new JsonResponse();

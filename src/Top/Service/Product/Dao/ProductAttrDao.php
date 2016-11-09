@@ -19,26 +19,28 @@ class ProductAttrDao extends \Top\Service\Common\BaseDao implements \Top\Service
 
     public function addMutil(array $attrs)
     {
-        if (empty($attrs)) {
+        return $this->mutilInsert(self::TABLE_NAME, $attrs);
+    }
+
+    public function updateByProductIdAndName($productId, $name, array $updateData)
+    {
+        return $this->update(self::TABLE_NAME, array('product_id' => $productId, 'name' => $name), $updateData);
+    }
+
+    public function deleteByCond(array $cond)
+    {
+        if (empty($cond)) {
             return false;
         }
-        $keys = array_keys(current($attrs));
-        $sql = 'INSERT INTO `' . self::TABLE_NAME . '`';
-        $sql .= '(' . implode(', ', $keys) . ') VALUES ';
-        $valuesInstring = array();
-        $placeholders = array();
-        for ($i = 0; $i < count($keys); $i++) {
-            $placeholders[] = '?';
-        }
-        $params = array();
-        foreach ($attrs as $attr) {
-            $params = array_merge($params, array_values($attr));
-            $valuesInstring[] = '(' . implode(', ', $placeholders) . ')';
-        }
+        return $this->delete(self::TABLE_NAME, $cond);
+    }
 
-        $sql .= implode(', ' , $valuesInstring);
-
-        return $this->getDbConnection()->executeQuery($sql, $params);
+    public function updateByCond(array $cond, $updateData)
+    {
+        if (empty($updateData) || empty($cond)) {
+            return false;
+        }
+        return $this->update(self::TABLE_NAME, $cond, $updateData);
     }
 
 }

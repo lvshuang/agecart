@@ -17,5 +17,7 @@ interface ProductSkuDao
     public function getByProductId($productId, $fields);
     
     public function updateBySku($sku, array $updateData);
+
+    public function getAll($fields, $orderBy = null, $start = 0, $limit = null);
     
 }

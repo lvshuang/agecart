@@ -50,6 +50,7 @@ class ProductSkuController extends BaseController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            
             $skuInfo = array(
                 'short_name' => $data['short_name'],
                 'price' => $data['price'],
@@ -57,11 +58,31 @@ class ProductSkuController extends BaseController
                 'inventory' => $data['inventory'],
                 'meta_keyword' => $data['meta_keyword'],
                 'meta_description' => $data['meta_description'],
-                'attributes' => $data['attributes']
             );
+            $attrs = [];
+            $attrsInStrings = explode('$', $data['attributes']);
+            foreach ($attrsInStrings as $attrsInString) {
+                $nameAndValue = explode('^', $attrsInString);
+                if ($nameAndValue) {
+                    $tmp = ['name' => $nameAndValue[0], 'value' => $nameAndValue[1]];
+                    $attrs[] = $tmp;
+                }
+            }
+
+            $images = explode('||', $data['images']);
+
+            $type = 'continue';
+            if (isset($data['type']) && in_array($data['type'], array('continue', 'break'))) {
+                $type = $data['type'];
+            }
+
             try {
-                $sku = $this->getProductService()->addProductSku($product['id'], $skuInfo);
+                $sku = $this->getProductService()->addProductSku($product['id'], $skuInfo, $attrs, $images);
                 if ($sku) {
+                    $this->addFlash('success', '添加sku成功');
+                    if ($type === 'continue') {
+                        return $this->redirectToRoute('admin_product_sku_add', array('productId' => $product['id']));
+                    }
                     return $this->redirectToRoute('admin_product_detail', array('id' => $product['id']), 301);
                 }
             } catch (\Top\Common\BusinessException $ex) {
@@ -89,8 +110,10 @@ class ProductSkuController extends BaseController
                 ->add('price', 'text', array('required' => true))
                 ->add('discount_price', 'text', array('required' => false))
                 ->add('inventory', 'text', array('required' => true))
+                ->add('images', 'hidden')
                 ->add('meta_keyword', 'text')
                 ->add('meta_description', 'textarea')
+                ->add('type', 'hidden')
                 ->getForm();
     }
     
